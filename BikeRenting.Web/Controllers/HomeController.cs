@@ -3,21 +3,26 @@
 using Microsoft.AspNetCore.Mvc;
 
 using BikeRenting.Web.ViewModels.Home;
+using BikeRenting.Data;
+using BikeRenting.Services.Data.Interfaces;
 
 namespace BikeRenting.Web.Controllers
 {
     public class HomeController : Controller
     {
-        
+        private readonly IBikeService bikeService;
 
-        public HomeController()
+        public HomeController(IBikeService bikeService)
         {
-            
+            this.bikeService = bikeService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            IEnumerable<IndexViewModel> viewModel =
+                await this.bikeService.LastThreeBikesAsync();
+
+            return View(viewModel);
         }
 
        

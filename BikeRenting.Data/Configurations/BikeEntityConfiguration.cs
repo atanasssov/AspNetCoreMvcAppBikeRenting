@@ -10,6 +10,10 @@ namespace BikeRenting.Data.Configurations
         public void Configure(EntityTypeBuilder<Bike> builder)
         {
             builder
+                .Property(b => b.CreatedOn)
+                .HasDefaultValueSql("GETDATE()");
+
+            builder
                 .HasOne(b => b.Category)
                 .WithMany(c => c.Bikes)
                 .HasForeignKey(b => b.CategoryId)

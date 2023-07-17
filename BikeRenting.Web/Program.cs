@@ -33,6 +33,7 @@ namespace BikeRenting.Web
                 .AddEntityFrameworkStores<BikeRentingDbContext>();
 
             builder.Services.AddControllersWithViews();
+            builder.Services.AddApplicationServices();
 
             var app = builder.Build();
 
