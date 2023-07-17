@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
 using static BikeRenting.Common.EntityValidationConstants.Bike;
 
 namespace BikeRenting.Data.Models
@@ -37,6 +37,7 @@ namespace BikeRenting.Data.Models
 
         public virtual Category Category { get; set; } = null!;
 
+        [ForeignKey(nameof(Agent))]
         public Guid AgentId { get; set; }
 
         public virtual Agent Agent { get; set; } = null!;
