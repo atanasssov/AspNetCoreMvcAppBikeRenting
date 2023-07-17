@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using BikeRenting.Data;
+using BikeRenting.Data.Models;
 
 namespace BikeRenting.Web
 {
@@ -13,17 +13,20 @@ namespace BikeRenting.Web
 
             
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            builder.Services.AddDbContext<BikeRentingDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = true;
+            })
+                .AddEntityFrameworkStores<BikeRentingDbContext>();
+
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
 
-          
             if (app.Environment.IsDevelopment())
             {
                 app.UseMigrationsEndPoint();

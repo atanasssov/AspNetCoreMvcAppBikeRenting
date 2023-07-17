@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BikeRenting.Common\BikeRenting.Common.csproj" />
+    <ProjectReference Include="..\BikeRenting.Data.Models\BikeRenting.Data.Models.csproj" />
     <ProjectReference Include="..\BikeRenting.Data\BikeRenting.Data.csproj" />
     <ProjectReference Include="..\BikeRenting.Web.ViewModels\BikeRenting.Web.ViewModels.csproj" />
   </ItemGroup>
