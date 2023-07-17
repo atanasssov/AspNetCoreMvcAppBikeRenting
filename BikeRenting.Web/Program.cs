@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 using BikeRenting.Data;
 using BikeRenting.Data.Models;
+using BikeRenting.Web.Infrastructure.Extensions;
 
 namespace BikeRenting.Web
 {

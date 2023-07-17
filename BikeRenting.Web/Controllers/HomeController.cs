@@ -3,7 +3,6 @@
 using Microsoft.AspNetCore.Mvc;
 
 using BikeRenting.Web.ViewModels.Home;
-using BikeRenting.Data;
 using BikeRenting.Services.Data.Interfaces;
 
 namespace BikeRenting.Web.Controllers
