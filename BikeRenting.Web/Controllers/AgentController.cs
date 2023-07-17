@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using BikeRenting.Web.Infrastructure.Extensions;
 using BikeRenting.Services.Data.Interfaces;
 
+using static BikeRenting.Common.NotificationMessagesConstants;
+
 namespace BikeRenting.Web.Controllers
 {
     [Authorize]
@@ -24,7 +26,9 @@ namespace BikeRenting.Web.Controllers
             bool isAgent = await this.agentService.AgentExistsByUserIdAsync(userId!);
             if(isAgent)
             {
-                return this.BadRequest();
+                TempData[ErrorMessage] = "You are already an agent!";
+
+                return this.RedirectToAction("Index", "Home");
             }
 
             return this.View();
