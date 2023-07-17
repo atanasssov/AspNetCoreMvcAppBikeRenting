@@ -15,7 +15,7 @@ namespace BikeRenting.Data.Models
 
         [Required]
         [MaxLength(TitleMaxLength)]
-        public string Tittle { get; set; } = null!;
+        public string Title { get; set; } = null!;
 
         [Required]
         [MaxLength(AddressMaxLength)]

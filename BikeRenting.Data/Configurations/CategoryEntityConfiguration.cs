@@ -39,9 +39,6 @@ namespace BikeRenting.Data.Configurations
             };
             categories.Add(category);
 
-
-
-
             return categories.ToArray();
         }
     }
