@@ -11,5 +11,11 @@ namespace BikeRenting.Web.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Add()
+        {
+            return Ok();
+        }
     }
 }

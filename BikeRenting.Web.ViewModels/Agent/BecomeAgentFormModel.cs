@@ -8,7 +8,8 @@ namespace BikeRenting.Web.ViewModels.Agent
     {
         [Required]
         [Phone]
-        [StringLength(PhoneNumberMaxLength, MinimumLength = PhoneNumberMinLength)]
+        [StringLength(PhoneNumberMaxLength, MinimumLength = PhoneNumberMinLength, 
+            ErrorMessage = "The field Phone must be with a minimum length of 7 and a maximum length of 18!")]
         [Display(Name = "Phone")]
         public string PhoneNumber { get; set; } = null!;
     }
