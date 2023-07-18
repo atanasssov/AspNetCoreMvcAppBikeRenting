@@ -4,6 +4,7 @@ using BikeRenting.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BikeRenting.Data.Migrations
 {
     [DbContext(typeof(BikeRentingDbContext))]
-    partial class BikeRentingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230717195255_AddingForeigneyAttributeForRenterIdInBikeEntity")]
+    partial class AddingForeigneyAttributeForRenterIdInBikeEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -165,7 +167,7 @@ namespace BikeRenting.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("eb2ea088-9389-4249-8dfd-b6cc6634b1e6"),
+                            Id = new Guid("9659809e-2621-43eb-84a1-c5dcebff7b63"),
                             Address = "Aleksandar Stamboliyski Blvd 31, 1000 Sofia Center, Sofia",
                             AgentId = new Guid("abb45694-e4c3-4a7c-80f7-bb249ee975a1"),
                             CategoryId = 1,
@@ -178,7 +180,7 @@ namespace BikeRenting.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1be65185-6408-465e-a6b6-774b3d615954"),
+                            Id = new Guid("3b68940d-11d7-45f2-b74e-3374055946bd"),
                             Address = "Sokolska 6А, 9002 Varna Center, Varna",
                             AgentId = new Guid("abb45694-e4c3-4a7c-80f7-bb249ee975a1"),
                             CategoryId = 2,
@@ -190,7 +192,7 @@ namespace BikeRenting.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("bbc139c9-8c6e-4a48-bb93-cb8301b0afdd"),
+                            Id = new Guid("3bde0c4d-c62f-499a-8331-6d768f5da29f"),
                             Address = "Rue du Trône 129, 1050 Ixelles, Belgium",
                             AgentId = new Guid("abb45694-e4c3-4a7c-80f7-bb249ee975a1"),
                             CategoryId = 3,

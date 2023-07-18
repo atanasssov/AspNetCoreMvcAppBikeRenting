@@ -42,8 +42,8 @@ namespace BikeRenting.Data.Configurations
                 ImageUrl = "https://ae01.alicdn.com/kf/Scff11857dfc7461f9eb84244f5d6e920C.jpg_640x640Q90.jpg_.webp",
                 PricePerMonth = 300.00M,
                 CategoryId = 1,
-                AgentId = Guid.Parse("ABB45694-E4C3-4A7C-80F7-BB249EE975A1"), 
-                RenterId = Guid.Parse("C6174679-B1EA-4627-832D-D666AA928AAB") 
+                AgentId = Guid.Parse("ABB45694-E4C3-4A7C-80F7-BB249EE975A1"),
+                RenterId = Guid.Parse("C6174679-B1EA-4627-832D-D666AA928AAB"),
             };
             bikes.Add(bike);
 
@@ -55,8 +55,8 @@ namespace BikeRenting.Data.Configurations
                 ImageUrl = "https://cdn.media.halfords.com/i/washford/560463_ss_03?w=620&h=480&qlt=default&fmt=auto&v=1",
                 PricePerMonth = 250.00M,
                 CategoryId = 2,
-                AgentId = Guid.Parse("ABB45694-E4C3-4A7C-80F7-BB249EE975A1"), 
-               
+                AgentId = Guid.Parse("ABB45694-E4C3-4A7C-80F7-BB249EE975A1"),
+
             };
             bikes.Add(bike);
 
@@ -68,7 +68,7 @@ namespace BikeRenting.Data.Configurations
                 ImageUrl = "https://www.blazingbikes.co.uk/media/catalog/product/1/1/1120_21_33304_a_accessory1.jpg",
                 PricePerMonth = 180.00M,
                 CategoryId = 3,
-                AgentId = Guid.Parse("ABB45694-E4C3-4A7C-80F7-BB249EE975A1"), 
+                AgentId = Guid.Parse("ABB45694-E4C3-4A7C-80F7-BB249EE975A1"),
 
             };
             bikes.Add(bike);

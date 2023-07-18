@@ -3,10 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 using BikeRenting.Web.Infrastructure.Extensions;
 using BikeRenting.Services.Data.Interfaces;
+using BikeRenting.Web.ViewModels.Agent;
 
 using static BikeRenting.Common.NotificationMessagesConstants;
-using BikeRenting.Web.ViewModels.Agent;
-using Microsoft.AspNetCore.Server.IIS.Core;
 
 namespace BikeRenting.Web.Controllers
 {

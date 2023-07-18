@@ -4,6 +4,7 @@ using BikeRenting.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BikeRenting.Data.Migrations
 {
     [DbContext(typeof(BikeRentingDbContext))]
-    partial class BikeRentingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230717201534_SeedCategoriesFirst")]
+    partial class SeedCategoriesFirst
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,9 +129,7 @@ namespace BikeRenting.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -161,45 +161,6 @@ namespace BikeRenting.Data.Migrations
                     b.HasIndex("RenterId");
 
                     b.ToTable("Bikes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("eb2ea088-9389-4249-8dfd-b6cc6634b1e6"),
-                            Address = "Aleksandar Stamboliyski Blvd 31, 1000 Sofia Center, Sofia",
-                            AgentId = new Guid("abb45694-e4c3-4a7c-80f7-bb249ee975a1"),
-                            CategoryId = 1,
-                            CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Brand new road carbon bike. Very comfortable and fast.",
-                            ImageUrl = "https://ae01.alicdn.com/kf/Scff11857dfc7461f9eb84244f5d6e920C.jpg_640x640Q90.jpg_.webp",
-                            PricePerMonth = 300.00m,
-                            RenterId = new Guid("c6174679-b1ea-4627-832d-d666aa928aab"),
-                            Title = "Twitter Gravel V2 RS24 ROAD CARBON BIKE"
-                        },
-                        new
-                        {
-                            Id = new Guid("1be65185-6408-465e-a6b6-774b3d615954"),
-                            Address = "Sokolska 6А, 9002 Varna Center, Varna",
-                            AgentId = new Guid("abb45694-e4c3-4a7c-80f7-bb249ee975a1"),
-                            CategoryId = 2,
-                            CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Off-road bike for rough terrain like mountain, desert, or rocks with specially design.",
-                            ImageUrl = "https://cdn.media.halfords.com/i/washford/560463_ss_03?w=620&h=480&qlt=default&fmt=auto&v=1",
-                            PricePerMonth = 250.00m,
-                            Title = "Apollo Valier Mens Mountain Bike"
-                        },
-                        new
-                        {
-                            Id = new Guid("bbc139c9-8c6e-4a48-bb93-cb8301b0afdd"),
-                            Address = "Rue du Trône 129, 1050 Ixelles, Belgium",
-                            AgentId = new Guid("abb45694-e4c3-4a7c-80f7-bb249ee975a1"),
-                            CategoryId = 3,
-                            CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Comfortable and capable of carrying heavy loads. Brand new.",
-                            ImageUrl = "https://www.blazingbikes.co.uk/media/catalog/product/1/1/1120_21_33304_a_accessory1.jpg",
-                            PricePerMonth = 180.00m,
-                            Title = "Trek 1120 Adventure Touring Bike"
-                        });
                 });
 
             modelBuilder.Entity("BikeRenting.Data.Models.Category", b =>
@@ -388,13 +349,13 @@ namespace BikeRenting.Data.Migrations
                     b.HasOne("BikeRenting.Data.Models.Agent", "Agent")
                         .WithMany("OwnedBikes")
                         .HasForeignKey("AgentId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BikeRenting.Data.Models.Category", "Category")
                         .WithMany("Bikes")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BikeRenting.Data.Models.ApplicationUser", "Renter")

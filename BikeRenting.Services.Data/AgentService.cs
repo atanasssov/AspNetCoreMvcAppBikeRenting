@@ -38,13 +38,20 @@ namespace BikeRenting.Services.Data
         {
             ApplicationUser? user = await this.dbContext
                 .Users
+                .Include(u => u.RentedBikes) // not working if this is not icluded
                 .FirstOrDefaultAsync(u => u.Id.ToString() == userId);
+
             if (user == null)
             {
                 return false;
             }
 
             return user.RentedBikes.Any();
+
+            //bool result = await this.dbContext
+            //    .Bikes
+            //    .AnyAsync(b => b.RenterId.ToString() == userId);
+            //return result;
 
         }
 

@@ -6,7 +6,6 @@ namespace BikeRenting.Data.Models
 {
     public class Bike
     {
-
         public Bike()
         {
             this.Id = Guid.NewGuid();
@@ -42,6 +41,7 @@ namespace BikeRenting.Data.Models
 
         public virtual Agent Agent { get; set; } = null!;
 
+        [ForeignKey(nameof(Renter))]
         public Guid? RenterId { get; set; }
 
         public virtual ApplicationUser? Renter { get; set; }
