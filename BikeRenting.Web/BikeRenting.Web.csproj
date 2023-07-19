@@ -19,6 +19,7 @@
     <ProjectReference Include="..\BikeRenting.Common\BikeRenting.Common.csproj" />
     <ProjectReference Include="..\BikeRenting.Data.Models\BikeRenting.Data.Models.csproj" />
     <ProjectReference Include="..\BikeRenting.Data\BikeRenting.Data.csproj" />
+    <ProjectReference Include="..\BikeRenting.Services.Data.Models\BikeRenting.Services.Data.Models.csproj" />
     <ProjectReference Include="..\BikeRenting.Services.Data\BikeRenting.Services.Data.csproj" />
     <ProjectReference Include="..\BikeRenting.Web.Infrastructure\BikeRenting.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\BikeRenting.Web.ViewModels\BikeRenting.Web.ViewModels.csproj" />

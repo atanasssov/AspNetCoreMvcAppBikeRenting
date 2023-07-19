@@ -6,6 +6,7 @@ using BikeRenting.Services.Data.Interfaces;
 using BikeRenting.Web.Infrastructure.Extensions;
 
 using static BikeRenting.Common.NotificationMessagesConstants;
+using BikeRenting.Services.Data.Models.Bike;
 
 namespace BikeRenting.Web.Controllers
 {
@@ -26,10 +27,19 @@ namespace BikeRenting.Web.Controllers
             this.bikeService = bikeService;
         }
 
+        [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All([FromQuery]AllBikesQueryModel queryModel)
         {
-            return this.Ok();
+
+            AllBikesFilteredAndPagedServiceModel serviceModel =
+                await this.bikeService.AllAsync(queryModel);
+
+            queryModel.Bikes = serviceModel.Bikes;
+            queryModel.TotalBikes = serviceModel.TotalBikesCount;
+            queryModel.Categories = await this.categoryService.AllCategoryNamesAsync();
+
+            return this.View(queryModel);
         }
 
         [HttpGet]
@@ -52,7 +62,6 @@ namespace BikeRenting.Web.Controllers
         }
 
         [HttpPost]
-
         public async Task<IActionResult> Add(BikeFormModel model)
         {
             bool isAgent = await this.agentService.AgentExistsByUserIdAsync(this.User.GetId()!);
@@ -82,7 +91,7 @@ namespace BikeRenting.Web.Controllers
                
                 await this.bikeService.CreateAsync(model, agentId!);
             }
-            catch (Exception _)
+            catch (Exception)
             {
                 this.ModelState.AddModelError(string.Empty, "Unexpected error occured while trying to add a new bike! Please try again later or contact an administrator!");
 

@@ -7,5 +7,7 @@ namespace BikeRenting.Services.Data.Interfaces
         Task<IEnumerable<BikeSelectCategoryFormModel>> AllCategoriesAsync();
 
         Task<bool> ExistsByIdAsync(int id);
+
+        Task<IEnumerable<string>> AllCategoryNamesAsync();
     }
 }

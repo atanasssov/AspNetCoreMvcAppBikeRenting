@@ -1,4 +1,5 @@
-﻿using BikeRenting.Web.ViewModels.Bike;
+﻿using BikeRenting.Services.Data.Models.Bike;
+using BikeRenting.Web.ViewModels.Bike;
 using BikeRenting.Web.ViewModels.Home;
 
 namespace BikeRenting.Services.Data.Interfaces
@@ -8,5 +9,7 @@ namespace BikeRenting.Services.Data.Interfaces
         Task<IEnumerable<IndexViewModel>> LastThreeBikesAsync();
 
         Task CreateAsync(BikeFormModel formModel, string agentId);
+
+        Task<AllBikesFilteredAndPagedServiceModel> AllAsync(AllBikesQueryModel queryModel);
     }
 }
