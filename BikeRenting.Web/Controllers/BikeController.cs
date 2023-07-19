@@ -162,7 +162,7 @@ namespace BikeRenting.Web.Controllers
             }
 
             string? agentId = await this.agentService.GetAgentIdByUserIdAsync(this.User.GetId()!);
-            bool isAgentOwner = await this.bikeService.IsAgentWithIdOwnerOfBikeWithId(id, agentId!);
+            bool isAgentOwner = await this.bikeService.IsAgentWithIdOwnerOfBikeWithIdAsync(id, agentId!);
             if (!isAgentOwner)
             {
                 TempData[ErrorMessage] = "You must be the agent owner of the bike which you want to edit!";
@@ -213,7 +213,7 @@ namespace BikeRenting.Web.Controllers
             }
 
             string? agentId = await this.agentService.GetAgentIdByUserIdAsync(this.User.GetId()!);
-            bool isAgentOwner = await this.bikeService.IsAgentWithIdOwnerOfBikeWithId(id, agentId!);
+            bool isAgentOwner = await this.bikeService.IsAgentWithIdOwnerOfBikeWithIdAsync(id, agentId!);
             if (!isAgentOwner)
             {
                 TempData[ErrorMessage] = "You must be the agent owner of the bike which you want to edit!";
@@ -223,7 +223,7 @@ namespace BikeRenting.Web.Controllers
 
             try
             {
-                await this.bikeService.EditBikeByIdAndFormModel(id, model);
+                await this.bikeService.EditBikeByIdAndFormModelAsync(id, model);
             }
             catch (Exception)
             {
@@ -235,6 +235,93 @@ namespace BikeRenting.Web.Controllers
 
             this.TempData[SuccessMessage] = "Bike was edited successfully!";
             return this.RedirectToAction("Details", "Bike", new { id }); // id is parameter of Details
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(string id)
+        {
+            bool bikeExists = await this.bikeService.ExistsByIdAsync(id);
+
+            if (!bikeExists)
+            {
+                this.TempData[ErrorMessage] = "Bike with the provided id does not exist!";
+
+                return this.RedirectToAction("All", "Bike");
+            }
+
+            bool isUserAgent = await this.agentService.AgentExistsByUserIdAsync(this.User.GetId()!);
+            if (!isUserAgent)
+            {
+                this.TempData[ErrorMessage] = "You must become agent in order to edit bike information!";
+
+                return this.RedirectToAction("Become", "Agent");
+            }
+
+            string? agentId = await this.agentService.GetAgentIdByUserIdAsync(this.User.GetId()!);
+            bool isAgentOwner = await this.bikeService.IsAgentWithIdOwnerOfBikeWithIdAsync(id, agentId!);
+            if (!isAgentOwner)
+            {
+                TempData[ErrorMessage] = "You must be the agent owner of the bike which you want to edit!";
+
+                return this.RedirectToAction("Mine", "Bike");
+            }
+
+            try
+            {
+                BikePreDeleteDetailsViewModel viewModel = await this.bikeService
+                    .GetBikeForDeleteByIdAsync(id);
+
+                return View(viewModel);
+            }
+            catch (Exception)
+            {
+                return this.GeneralError();
+            }
+
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id, BikePreDeleteDetailsViewModel model)
+        {
+            bool bikeExists = await this.bikeService.ExistsByIdAsync(id);
+
+            if (!bikeExists)
+            {
+                this.TempData[ErrorMessage] = "Bike with the provided id does not exist!";
+
+                return this.RedirectToAction("All", "Bike");
+            }
+
+            bool isUserAgent = await this.agentService.AgentExistsByUserIdAsync(this.User.GetId()!);
+            if (!isUserAgent)
+            {
+                this.TempData[ErrorMessage] = "You must become agent in order to edit bike information!";
+
+                return this.RedirectToAction("Become", "Agent");
+            }
+
+            string? agentId = await this.agentService.GetAgentIdByUserIdAsync(this.User.GetId()!);
+            bool isAgentOwner = await this.bikeService.IsAgentWithIdOwnerOfBikeWithIdAsync(id, agentId!);
+            if (!isAgentOwner)
+            {
+                TempData[ErrorMessage] = "You must be the agent owner of the bike which you want to edit!";
+
+                return this.RedirectToAction("Mine", "Bike");
+            }
+
+            try
+            {
+                await this.bikeService.DeleteBikeByIdAsync(id);
+
+                this.TempData[WarningMessage] = "The bike was successfully deleted!";
+                return this.RedirectToAction("Mine", "Bike");
+            }
+            catch (Exception)
+            {
+
+                return this.GeneralError();
+            }
         }
 
         [HttpGet]

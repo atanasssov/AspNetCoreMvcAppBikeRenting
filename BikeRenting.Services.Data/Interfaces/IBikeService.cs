@@ -22,9 +22,13 @@ namespace BikeRenting.Services.Data.Interfaces
 
         Task<BikeFormModel> GetBikeForEditByIdAsync(string bikeId);
 
-        Task<bool> IsAgentWithIdOwnerOfBikeWithId(string bikeId, string agentId);
+        Task<bool> IsAgentWithIdOwnerOfBikeWithIdAsync(string bikeId, string agentId);
 
-        Task EditBikeByIdAndFormModel(string bikeId, BikeFormModel formModel);
+        Task EditBikeByIdAndFormModelAsync(string bikeId, BikeFormModel formModel);
+
+        Task<BikePreDeleteDetailsViewModel> GetBikeForDeleteByIdAsync(string bikeId);
+
+        Task DeleteBikeByIdAsync(string bikeId);
 
     }
 }

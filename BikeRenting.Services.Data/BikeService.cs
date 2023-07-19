@@ -222,7 +222,7 @@ namespace BikeRenting.Services.Data
             };
         }
 
-        public async Task<bool> IsAgentWithIdOwnerOfBikeWithId(string bikeId, string agentId)
+        public async Task<bool> IsAgentWithIdOwnerOfBikeWithIdAsync(string bikeId, string agentId)
         {
             Bike bike = await this.dbContext
                 .Bikes
@@ -232,7 +232,7 @@ namespace BikeRenting.Services.Data
             return bike.AgentId.ToString() == agentId;
         }
 
-        public async Task EditBikeByIdAndFormModel(string bikeId, BikeFormModel formModel)
+        public async Task EditBikeByIdAndFormModelAsync(string bikeId, BikeFormModel formModel)
         {
             Bike bike = await this.dbContext
                 .Bikes
@@ -245,6 +245,33 @@ namespace BikeRenting.Services.Data
             bike.ImageUrl = formModel.ImageUrl;
             bike.CategoryId = formModel.CategoryId;
             bike.PricePerMonth = formModel.PricePerMonth;
+
+            await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task<BikePreDeleteDetailsViewModel> GetBikeForDeleteByIdAsync(string bikeId)
+        {
+            Bike bike = await this.dbContext
+                .Bikes
+                .Where(b => b.IsActive)
+                .FirstAsync(b => b.Id.ToString() == bikeId);
+
+            return new BikePreDeleteDetailsViewModel
+            {
+                Title = bike.Title,
+                Address = bike.Address,
+                ImageUrl = bike.ImageUrl
+            };
+        }
+
+        public async Task DeleteBikeByIdAsync(string bikeId)
+        {
+            Bike bikeToDelete = await this.dbContext
+                 .Bikes
+                 .Where(b => b.IsActive)
+                 .FirstAsync(b => b.Id.ToString() == bikeId);
+
+            bikeToDelete.IsActive = false;
 
             await this.dbContext.SaveChangesAsync();
         }
