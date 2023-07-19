@@ -24,6 +24,7 @@ namespace BikeRenting.Services.Data
         {
             IEnumerable<IndexViewModel> lastThreeBikes = await this.dbContext
                 .Bikes
+                .Where(b => b.IsActive)
                 .OrderByDescending(b => b.CreatedOn)
                 .Take(3)
                 .Select(b => new IndexViewModel
@@ -92,6 +93,7 @@ namespace BikeRenting.Services.Data
             };
 
             IEnumerable<BikeAllViewModel> allBikes = await bikesQuery
+                .Where(b => b.IsActive)
                 .Skip((queryModel.CurrentPage - 1) * queryModel.BikesPerPage)
                 .Take(queryModel.BikesPerPage)
                 .Select(b => new BikeAllViewModel

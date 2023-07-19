@@ -14,6 +14,10 @@ namespace BikeRenting.Data.Configurations
                 .HasDefaultValueSql("GETDATE()");
 
             builder
+                .Property(b => b.IsActive)
+                .HasDefaultValue(true);
+
+            builder
                 .HasOne(b => b.Category)
                 .WithMany(c => c.Bikes)
                 .HasForeignKey(b => b.CategoryId)
