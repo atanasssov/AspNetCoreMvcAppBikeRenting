@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Authorization;
 using BikeRenting.Web.ViewModels.Bike;
 using BikeRenting.Services.Data.Interfaces;
 using BikeRenting.Web.Infrastructure.Extensions;
+using BikeRenting.Services.Data.Models.Bike;
 
 using static BikeRenting.Common.NotificationMessagesConstants;
-using BikeRenting.Services.Data.Models.Bike;
 
 namespace BikeRenting.Web.Controllers
 {
@@ -52,12 +52,21 @@ namespace BikeRenting.Web.Controllers
 
                 return this.RedirectToAction("Become", "Agent");
             }
-            BikeFormModel formModel = new BikeFormModel()
-            {
-                Categories = await this.categoryService.AllCategoriesAsync()
-            };
 
-            return View(formModel);
+            try
+            {
+                BikeFormModel formModel = new BikeFormModel()
+                {
+                    Categories = await this.categoryService.AllCategoriesAsync()
+                };
+
+                return View(formModel);
+            }
+            catch (Exception)
+            {
+                return this.GeneralError();
+            }
+            
 
         }
 
@@ -115,17 +124,114 @@ namespace BikeRenting.Web.Controllers
                 return this.RedirectToAction("All", "Bike");
             }
 
-            BikeDetailsViewModel viewModel = await this.bikeService.GetDetailsByIdAsync(id);
+            try
+            {
+                BikeDetailsViewModel viewModel = await this.bikeService.GetDetailsByIdAsync(id);
 
-            return View(viewModel);
+                return View(viewModel);
+            }
+            catch (Exception)
+            {
+
+                return this.GeneralError();
+            }
+
+            
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
+            bool bikeExists = await this.bikeService.ExistsByIdAsync(id);
 
+            if (!bikeExists)
+            {
+                this.TempData[ErrorMessage] = "Bike with the provided id does not exist!";
 
-            return this.Ok();
+                return this.RedirectToAction("All", "Bike");
+            }
+
+            bool isUserAgent = await this.agentService.AgentExistsByUserIdAsync(this.User.GetId()!);
+            if (!isUserAgent)
+            {
+                this.TempData[ErrorMessage] = "You must become agent in order to edit bike information!";
+
+                return this.RedirectToAction("Become", "Agent");
+            }
+
+            string? agentId = await this.agentService.GetAgentIdByUserIdAsync(this.User.GetId()!);
+            bool isAgentOwner = await this.bikeService.IsAgentWithIdOwnerOfBikeWithId(id, agentId!);
+            if (!isAgentOwner)
+            {
+                TempData[ErrorMessage] = "You must be the agent owner of the bike which you want to edit!";
+
+                return this.RedirectToAction("Mine", "Bike");
+            }
+
+            try
+            {
+                BikeFormModel formModel = await this.bikeService.GetBikeForEditByIdAsync(id);
+                formModel.Categories = await this.categoryService.AllCategoriesAsync();
+
+                return this.View(formModel);
+            }
+            catch (Exception)
+            {
+
+                return this.GeneralError();
+            }
+
+            
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(string id, BikeFormModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.Categories = await this.categoryService.AllCategoriesAsync();
+                return this.View(model);
+            }
+
+            bool bikeExists = await this.bikeService.ExistsByIdAsync(id);
+
+            if (!bikeExists)
+            {
+                this.TempData[ErrorMessage] = "Bike with the provided id does not exist!";
+
+                return this.RedirectToAction("All", "Bike");
+            }
+
+            bool isUserAgent = await this.agentService.AgentExistsByUserIdAsync(this.User.GetId()!);
+            if (!isUserAgent)
+            {
+                this.TempData[ErrorMessage] = "You must become agent in order to edit bike information!";
+
+                return this.RedirectToAction("Become", "Agent");
+            }
+
+            string? agentId = await this.agentService.GetAgentIdByUserIdAsync(this.User.GetId()!);
+            bool isAgentOwner = await this.bikeService.IsAgentWithIdOwnerOfBikeWithId(id, agentId!);
+            if (!isAgentOwner)
+            {
+                TempData[ErrorMessage] = "You must be the agent owner of the bike which you want to edit!";
+
+                return this.RedirectToAction("Mine", "Bike");
+            }
+
+            try
+            {
+                await this.bikeService.EditBikeByIdAndFormModel(id, model);
+            }
+            catch (Exception)
+            {
+                this.ModelState.AddModelError(string.Empty, "Unexpected error occured while trying to update the bike. Please, try again later or contact an administrator!");
+                model.Categories = await this.categoryService.AllCategoriesAsync();
+
+                return this.View(model);
+            }
+
+            return this.RedirectToAction("Details", "Bike", new { id }); // id is parameter of Details
         }
 
         [HttpGet]
@@ -135,18 +241,35 @@ namespace BikeRenting.Web.Controllers
 
             string userId = this.User.GetId()!;
             bool isUserAgent = await this.agentService.AgentExistsByUserIdAsync(userId);
-            if (isUserAgent)
-            {
-                string? agentId = await this.agentService.GetAgentIdByUserIdAsync(userId);
 
-                myBikes.AddRange(await this.bikeService.AllByAgentIdAsync(agentId!));
-            }
-            else
+            try
             {
-                myBikes.AddRange(await this.bikeService.AllByUserIdAsync(userId!));
-            }
+                if (isUserAgent)
+                {
+                    string? agentId = await this.agentService.GetAgentIdByUserIdAsync(userId);
 
-            return this.View(myBikes);
+                    myBikes.AddRange(await this.bikeService.AllByAgentIdAsync(agentId!));
+                }
+                else
+                {
+                    myBikes.AddRange(await this.bikeService.AllByUserIdAsync(userId!));
+                }
+
+                return this.View(myBikes);
+            }
+            catch (Exception)
+            {
+
+                return this.GeneralError();
+            }
+           
+        }
+
+        private IActionResult GeneralError()
+        {
+            this.TempData[ErrorMessage] = "Unexpected error occured. Please, try again later or contact an administrator!";
+
+            return this.RedirectToAction("Index", "Home");
         }
     }
 }

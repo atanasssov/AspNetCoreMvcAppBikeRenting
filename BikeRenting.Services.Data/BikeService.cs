@@ -174,7 +174,7 @@ namespace BikeRenting.Services.Data
             return new BikeDetailsViewModel
             {
                 Id = bike.Id.ToString(),
-                Title = bike.Address,
+                Title = bike.Title,
                 Address = bike.Address,
                 ImageUrl = bike.ImageUrl,
                 PricePerMonth = bike.PricePerMonth,
@@ -218,6 +218,33 @@ namespace BikeRenting.Services.Data
                 PricePerMonth = bike.PricePerMonth,
                 CategoryId = bike.CategoryId
             };
+        }
+
+        public async Task<bool> IsAgentWithIdOwnerOfBikeWithId(string bikeId, string agentId)
+        {
+            Bike bike = await this.dbContext
+                .Bikes
+                .Where(b => b.IsActive)
+                .FirstAsync(b => b.Id.ToString() == bikeId);
+
+            return bike.AgentId.ToString() == agentId;
+        }
+
+        public async Task EditBikeByIdAndFormModel(string bikeId, BikeFormModel formModel)
+        {
+            Bike bike = await this.dbContext
+                .Bikes
+                .Where(b => b.IsActive)
+                .FirstAsync(b => b.Id.ToString() == bikeId);
+
+            bike.Title = formModel.Title;
+            bike.Address = formModel.Address;
+            bike.Description = formModel.Description;
+            bike.ImageUrl = formModel.ImageUrl;
+            bike.CategoryId = formModel.CategoryId;
+            bike.PricePerMonth = formModel.PricePerMonth;
+
+            await this.dbContext.SaveChangesAsync();
         }
     }
 }

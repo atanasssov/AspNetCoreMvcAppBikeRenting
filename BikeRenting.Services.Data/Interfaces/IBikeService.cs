@@ -22,5 +22,9 @@ namespace BikeRenting.Services.Data.Interfaces
 
         Task<BikeFormModel> GetBikeForEditByIdAsync(string bikeId);
 
+        Task<bool> IsAgentWithIdOwnerOfBikeWithId(string bikeId, string agentId);
+
+        Task EditBikeByIdAndFormModel(string bikeId, BikeFormModel formModel);
+
     }
 }
