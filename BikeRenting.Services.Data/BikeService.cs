@@ -3,6 +3,8 @@
 using BikeRenting.Data;
 using BikeRenting.Services.Data.Interfaces;
 using BikeRenting.Web.ViewModels.Home;
+using BikeRenting.Web.ViewModels.Bike;
+using BikeRenting.Data.Models;
 
 namespace BikeRenting.Services.Data
 {
@@ -14,6 +16,7 @@ namespace BikeRenting.Services.Data
         {
             this.dbContext = dbContext;
         }
+
 
         public async Task<IEnumerable<IndexViewModel>> LastThreeBikesAsync()
         {
@@ -30,6 +33,23 @@ namespace BikeRenting.Services.Data
                 .ToArrayAsync();
 
             return lastThreeBikes;
+        }
+
+        public async Task CreateAsync(BikeFormModel formModel, string agentId)
+        {
+            Bike newBike = new Bike()
+            {
+                Title = formModel.Title,
+                Address = formModel.Address,
+                Description = formModel.Description,
+                ImageUrl = formModel.ImageUrl,
+                PricePerMonth = formModel.PricePerMonth,
+                CategoryId = formModel.CategoryId,
+                AgentId = Guid.Parse(agentId),
+            };
+
+            await this.dbContext.Bikes.AddAsync(newBike);
+            await this.dbContext.SaveChangesAsync();
         }
     }
 }
