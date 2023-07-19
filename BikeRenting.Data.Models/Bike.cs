@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+
 using static BikeRenting.Common.EntityValidationConstants.Bike;
 
 namespace BikeRenting.Data.Models

@@ -159,20 +159,17 @@ namespace BikeRenting.Services.Data
             return allUserBikes;
         }
 
-        public async Task<BikeDetailsViewModel?> GetDetailsByIdAsync(string bikeId)
+        public async Task<BikeDetailsViewModel> GetDetailsByIdAsync(string bikeId)
         {
-            Bike? bike = await this.dbContext
+            Bike bike = await this.dbContext
                 .Bikes
                 .Include(b => b.Category)
                 .Include(b => b.Agent)
                 .ThenInclude(a => a.User)
                 .Where(b => b.IsActive)
-                .FirstOrDefaultAsync(b => b.Id.ToString() == bikeId);
+                .FirstAsync(b => b.Id.ToString() == bikeId);
 
-            if (bike == null)
-            {
-                return null;
-            }
+         
 
             return new BikeDetailsViewModel
             {
@@ -192,6 +189,35 @@ namespace BikeRenting.Services.Data
                 }
             };
                 
+        }
+
+        public async Task<bool> ExistsByIdAsync(string bikeId)
+        {
+            bool result = await this.dbContext
+                .Bikes
+                .Where(b => b.IsActive)
+                .AnyAsync(b => b.Id.ToString() == bikeId);
+
+            return result;
+        }
+
+        public async Task<BikeFormModel> GetBikeForEditByIdAsync(string bikeId)
+        {
+            Bike bike = await this.dbContext
+                .Bikes
+                .Include(b => b.Category)
+                .Where(b => b.IsActive)
+                .FirstAsync(b => b.Id.ToString() == bikeId);
+
+            return new BikeFormModel
+            {
+                Title = bike.Title,
+                Address = bike.Address,
+                Description = bike.Description,
+                ImageUrl = bike.ImageUrl,
+                PricePerMonth = bike.PricePerMonth,
+                CategoryId = bike.CategoryId
+            };
         }
     }
 }

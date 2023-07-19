@@ -105,19 +105,27 @@ namespace BikeRenting.Web.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-
         public async Task<IActionResult> Details(string id)
         {
-            BikeDetailsViewModel? viewModel = await this.bikeService.GetDetailsByIdAsync(id);
-
-            if (viewModel == null)
+            bool bikeExists = await this.bikeService.ExistsByIdAsync(id);
+            if (!bikeExists)
             {
                 this.TempData[ErrorMessage] = "Bike with the provided id does not exist!";
 
                 return this.RedirectToAction("All", "Bike");
             }
 
+            BikeDetailsViewModel viewModel = await this.bikeService.GetDetailsByIdAsync(id);
+
             return View(viewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+
+
+            return this.Ok();
         }
 
         [HttpGet]
