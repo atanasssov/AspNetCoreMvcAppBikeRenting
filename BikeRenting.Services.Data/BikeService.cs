@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using BikeRenting.Data;
+using BikeRenting.Data.Models;
 using BikeRenting.Services.Data.Interfaces;
+using BikeRenting.Services.Data.Models.Bike;
 using BikeRenting.Web.ViewModels.Home;
 using BikeRenting.Web.ViewModels.Bike;
-using BikeRenting.Data.Models;
-using BikeRenting.Services.Data.Models.Bike;
 using BikeRenting.Web.ViewModels.Bike.Enums;
 
 namespace BikeRenting.Services.Data
@@ -115,6 +115,47 @@ namespace BikeRenting.Services.Data
                 Bikes = allBikes
             };
           
+        }
+
+        public async Task<IEnumerable<BikeAllViewModel>> AllByAgentIdAsync(string agentId)
+        {
+
+            IEnumerable<BikeAllViewModel> allAgentBikes = await this.dbContext
+                .Bikes
+                .Where(b => b.IsActive)
+                .Where(b => b.AgentId.ToString() == agentId)
+                .Select(b => new BikeAllViewModel
+                {
+                    Id = b.Id.ToString(),
+                    Title =b.Title,
+                    Address = b.Address,
+                    ImageUrl = b.ImageUrl,
+                    PricePerMonth = b.PricePerMonth,
+                    IsRented = b.RenterId.HasValue
+                })
+                .ToArrayAsync();
+
+            return allAgentBikes;
+        }
+
+        public async Task<IEnumerable<BikeAllViewModel>> AllByUserIdAsync(string userId)
+        {
+            IEnumerable<BikeAllViewModel> allUserBikes = await this.dbContext
+               .Bikes
+               .Where(b => b.IsActive)
+               .Where(b => b.RenterId.HasValue && b.RenterId.ToString()== userId)
+               .Select(b => new BikeAllViewModel
+               {
+                   Id = b.Id.ToString(),
+                   Title = b.Title,
+                   Address = b.Address,
+                   ImageUrl = b.ImageUrl,
+                   PricePerMonth = b.PricePerMonth,
+                   IsRented = b.RenterId.HasValue
+               })
+               .ToArrayAsync();
+
+            return allUserBikes;
         }
     }
 }

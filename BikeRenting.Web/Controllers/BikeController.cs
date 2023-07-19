@@ -102,5 +102,26 @@ namespace BikeRenting.Web.Controllers
 
             return this.RedirectToAction("All", "Bike");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Mine()
+        {
+            List<BikeAllViewModel> myBikes = new List<BikeAllViewModel>();
+
+            string userId = this.User.GetId()!;
+            bool isUserAgent = await this.agentService.AgentExistsByUserIdAsync(userId);
+            if (isUserAgent)
+            {
+                string? agentId = await this.agentService.GetAgentIdByUserIdAsync(userId);
+
+                myBikes.AddRange(await this.bikeService.AllByAgentIdAsync(agentId!));
+            }
+            else
+            {
+                myBikes.AddRange(await this.bikeService.AllByUserIdAsync(userId!));
+            }
+
+            return this.View(myBikes);
+        }
     }
 }

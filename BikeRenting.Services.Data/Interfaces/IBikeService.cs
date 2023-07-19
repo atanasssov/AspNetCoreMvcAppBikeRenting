@@ -11,5 +11,10 @@ namespace BikeRenting.Services.Data.Interfaces
         Task CreateAsync(BikeFormModel formModel, string agentId);
 
         Task<AllBikesFilteredAndPagedServiceModel> AllAsync(AllBikesQueryModel queryModel);
+
+        Task<IEnumerable<BikeAllViewModel>> AllByAgentIdAsync (string agentId);
+
+        Task<IEnumerable<BikeAllViewModel>> AllByUserIdAsync(string userId);
+
     }
 }
