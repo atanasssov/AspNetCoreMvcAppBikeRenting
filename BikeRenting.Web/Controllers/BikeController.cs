@@ -100,6 +100,7 @@ namespace BikeRenting.Web.Controllers
                
                 string bikeId = await this.bikeService.CreateAndReturnIdAsync(model, agentId!);
 
+                this.TempData[SuccessMessage] = "Bike was added successfully!";
                 return this.RedirectToAction("Details", "Bike", new { id = bikeId });
             }
             catch (Exception)
@@ -232,6 +233,7 @@ namespace BikeRenting.Web.Controllers
                 return this.View(model);
             }
 
+            this.TempData[SuccessMessage] = "Bike was edited successfully!";
             return this.RedirectToAction("Details", "Bike", new { id }); // id is parameter of Details
         }
 
