@@ -16,5 +16,7 @@ namespace BikeRenting.Services.Data.Interfaces
 
         Task<IEnumerable<BikeAllViewModel>> AllByUserIdAsync(string userId);
 
+        Task<BikeDetailsViewModel?> GetDetailsByIdAsync(string bikeId);
+
     }
 }

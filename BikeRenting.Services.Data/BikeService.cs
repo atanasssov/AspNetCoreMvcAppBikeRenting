@@ -6,6 +6,7 @@ using BikeRenting.Services.Data.Interfaces;
 using BikeRenting.Services.Data.Models.Bike;
 using BikeRenting.Web.ViewModels.Home;
 using BikeRenting.Web.ViewModels.Bike;
+using BikeRenting.Web.ViewModels.Agent;
 using BikeRenting.Web.ViewModels.Bike.Enums;
 
 namespace BikeRenting.Services.Data
@@ -156,6 +157,41 @@ namespace BikeRenting.Services.Data
                .ToArrayAsync();
 
             return allUserBikes;
+        }
+
+        public async Task<BikeDetailsViewModel?> GetDetailsByIdAsync(string bikeId)
+        {
+            Bike? bike = await this.dbContext
+                .Bikes
+                .Include(b => b.Category)
+                .Include(b => b.Agent)
+                .ThenInclude(a => a.User)
+                .Where(b => b.IsActive)
+                .FirstOrDefaultAsync(b => b.Id.ToString() == bikeId);
+
+            if (bike == null)
+            {
+                return null;
+            }
+
+            return new BikeDetailsViewModel
+            {
+                Id = bike.Id.ToString(),
+                Title = bike.Address,
+                Address = bike.Address,
+                ImageUrl = bike.ImageUrl,
+                PricePerMonth = bike.PricePerMonth,
+                IsRented = bike.RenterId.HasValue,
+                Description = bike.Description,
+                Category = bike.Category.Name,
+                Agent = new AgentInfoOnBikeViewModel()
+                {
+                    Email = bike.Agent.User.Email,
+                    PhoneNumber = bike.Agent.PhoneNumber
+
+                }
+            };
+                
         }
     }
 }

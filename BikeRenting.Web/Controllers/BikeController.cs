@@ -104,6 +104,23 @@ namespace BikeRenting.Web.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
+
+        public async Task<IActionResult> Details(string id)
+        {
+            BikeDetailsViewModel? viewModel = await this.bikeService.GetDetailsByIdAsync(id);
+
+            if (viewModel == null)
+            {
+                this.TempData[ErrorMessage] = "Bike with the provided id does not exist!";
+
+                return this.RedirectToAction("All", "Bike");
+            }
+
+            return View(viewModel);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Mine()
         {
             List<BikeAllViewModel> myBikes = new List<BikeAllViewModel>();
