@@ -98,18 +98,19 @@ namespace BikeRenting.Web.Controllers
             {
                 string? agentId = await this.agentService.GetAgentIdByUserIdAsync(this.User.GetId()!);
                
-                await this.bikeService.CreateAsync(model, agentId!);
+                string bikeId = await this.bikeService.CreateAndReturnIdAsync(model, agentId!);
+
+                return this.RedirectToAction("Details", "Bike", new { id = bikeId });
             }
             catch (Exception)
             {
                 this.ModelState.AddModelError(string.Empty, "Unexpected error occured while trying to add a new bike! Please try again later or contact an administrator!");
-
                 model.Categories = await this.categoryService.AllCategoriesAsync();
+
                 return this.View(model);
 
             }
-
-            return this.RedirectToAction("All", "Bike");
+            
         }
 
         [HttpGet]

@@ -2,12 +2,12 @@
 
 using BikeRenting.Data;
 using BikeRenting.Data.Models;
-using BikeRenting.Services.Data.Interfaces;
 using BikeRenting.Services.Data.Models.Bike;
+using BikeRenting.Services.Data.Interfaces;
 using BikeRenting.Web.ViewModels.Home;
 using BikeRenting.Web.ViewModels.Bike;
-using BikeRenting.Web.ViewModels.Agent;
 using BikeRenting.Web.ViewModels.Bike.Enums;
+using BikeRenting.Web.ViewModels.Agent;
 
 namespace BikeRenting.Services.Data
 {
@@ -39,7 +39,7 @@ namespace BikeRenting.Services.Data
             return lastThreeBikes;
         }
 
-        public async Task CreateAsync(BikeFormModel formModel, string agentId)
+        public async Task<string> CreateAndReturnIdAsync(BikeFormModel formModel, string agentId)
         {
             Bike newBike = new Bike()
             {
@@ -54,6 +54,8 @@ namespace BikeRenting.Services.Data
 
             await this.dbContext.Bikes.AddAsync(newBike);
             await this.dbContext.SaveChangesAsync();
+
+            return newBike.Id.ToString();
         }
 
         public async Task<AllBikesFilteredAndPagedServiceModel> AllAsync(AllBikesQueryModel queryModel)
