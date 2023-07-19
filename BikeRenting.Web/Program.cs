@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using BikeRenting.Data;
 using BikeRenting.Data.Models;
 using BikeRenting.Web.Infrastructure.Extensions;
+using BikeRenting.Web.Infrastructure.ModelBinders;
 
 namespace BikeRenting.Web
 {
@@ -33,7 +34,13 @@ namespace BikeRenting.Web
             })
                 .AddEntityFrameworkStores<BikeRentingDbContext>();
 
-            builder.Services.AddControllersWithViews();
+            builder.Services.
+                AddControllersWithViews()
+                .AddMvcOptions(options =>
+                {
+                    options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+                });
+
             builder.Services.AddApplicationServices();
 
             var app = builder.Build();
