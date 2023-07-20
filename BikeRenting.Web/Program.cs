@@ -4,6 +4,7 @@ using BikeRenting.Data;
 using BikeRenting.Data.Models;
 using BikeRenting.Web.Infrastructure.Extensions;
 using BikeRenting.Web.Infrastructure.ModelBinders;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BikeRenting.Web
 {
@@ -39,6 +40,7 @@ namespace BikeRenting.Web
                 .AddMvcOptions(options =>
                 {
                     options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+                    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
                 });
 
             builder.Services.AddApplicationServices();
