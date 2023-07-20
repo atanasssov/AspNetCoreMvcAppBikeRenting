@@ -1,4 +1,5 @@
 ﻿using BikeRenting.Services.Data.Models.Bike;
+using BikeRenting.Services.Data.Models.Statistics;
 using BikeRenting.Web.ViewModels.Bike;
 using BikeRenting.Web.ViewModels.Home;
 
@@ -37,5 +38,7 @@ namespace BikeRenting.Services.Data.Interfaces
         Task<bool> IsRentedByUserWithIdAsync(string bikeId, string userId);
 
         Task LeaveBikeAsync(string bikeId);
+
+        Task<StatisticsServiceModel> GetStatisticsAsync();
     }
 }

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>8d9f6bb0-a4c2-40a5-9af9-a123e3379ad6</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BikeRenting.Common\BikeRenting.Common.csproj" />
+    <ProjectReference Include="..\BikeRenting.Services.Data.Models\BikeRenting.Services.Data.Models.csproj" />
+    <ProjectReference Include="..\BikeRenting.Services.Data\BikeRenting.Services.Data.csproj" />
+    <ProjectReference Include="..\BikeRenting.Web.Infrastructure\BikeRenting.Web.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

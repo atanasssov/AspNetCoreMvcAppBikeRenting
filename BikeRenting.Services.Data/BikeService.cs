@@ -8,6 +8,7 @@ using BikeRenting.Web.ViewModels.Home;
 using BikeRenting.Web.ViewModels.Bike;
 using BikeRenting.Web.ViewModels.Bike.Enums;
 using BikeRenting.Web.ViewModels.Agent;
+using BikeRenting.Services.Data.Models.Statistics;
 
 namespace BikeRenting.Services.Data
 {
@@ -319,6 +320,17 @@ namespace BikeRenting.Services.Data
             bike.RenterId = null!;
 
             await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task<StatisticsServiceModel> GetStatisticsAsync()
+        {
+            return new StatisticsServiceModel
+            {
+                TotalBikes = await this.dbContext.Bikes.Where(b => b.IsActive).CountAsync(),
+
+                TotalRents = await this.dbContext.Bikes.Where(b => b.IsActive)
+                                                        .Where(b => b.RenterId.HasValue).CountAsync()
+            };
         }
     }
 }
