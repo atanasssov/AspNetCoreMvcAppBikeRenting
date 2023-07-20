@@ -7,6 +7,7 @@ using BikeRenting.Web.Infrastructure.Extensions;
 using BikeRenting.Services.Data.Models.Bike;
 
 using static BikeRenting.Common.NotificationMessagesConstants;
+using Microsoft.AspNetCore.Server.IIS.Core;
 
 namespace BikeRenting.Web.Controllers
 {
@@ -369,7 +370,7 @@ namespace BikeRenting.Web.Controllers
             bool isBikeRented = await this.bikeService.IsRentedByIdAsync(id);
             if (isBikeRented)
             {
-                this.TempData[ErrorMessage] = "Selected bike is already rented by another user Please, select another bike!";
+                this.TempData[ErrorMessage] = "Selected bike is already rented by another user! Please, select another bike!";
 
                 return this.RedirectToAction("All", "Bike");
             }
@@ -393,6 +394,46 @@ namespace BikeRenting.Web.Controllers
             }
 
             return this.RedirectToAction("Mine", "Bike");
+        }
+
+        public async Task<IActionResult> Leave(string id)
+        {
+            bool bikeExists = await this.bikeService.ExistsByIdAsync(id);
+            if (!bikeExists)
+            {
+                this.TempData[ErrorMessage] = "Bike with provided id does not exist! Please, try again!";
+
+                return this.RedirectToAction("All", "Bike");
+            }
+
+            bool isBikeRented = await this.bikeService.IsRentedByIdAsync(id);
+            if (!isBikeRented)
+            {
+                this.TempData[ErrorMessage] = "Selected bike is not rented! Only rented bikes can be left!";
+
+                return this.RedirectToAction("Mine", "Bike");
+            }
+
+            bool IsCurrenUserRenterOfTheBike = await this.bikeService
+                .IsRentedByUserWithIdAsync(id, this.User.GetId()!);
+            if (!IsCurrenUserRenterOfTheBike)
+            {
+                this.TempData[ErrorMessage] = "You must be the renter of the bike in order to leave it!";
+
+                return this.RedirectToAction("Mine", "Bike");
+            }
+
+            try
+            {
+                await this.bikeService.LeaveBikeAsync(id);
+            }
+            catch (Exception)
+            {
+                return this.GeneralError();
+            }
+
+            return this.RedirectToAction("Mine", "Bike");
+
         }
 
         private IActionResult GeneralError()
