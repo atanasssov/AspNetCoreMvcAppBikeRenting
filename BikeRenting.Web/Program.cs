@@ -4,6 +4,7 @@ using BikeRenting.Data;
 using BikeRenting.Data.Models;
 using BikeRenting.Web.Infrastructure.Extensions;
 using BikeRenting.Web.Infrastructure.ModelBinders;
+using BikeRenting.Web.Controllers;
 
 namespace BikeRenting.Web
 {
@@ -52,7 +53,9 @@ namespace BikeRenting.Web
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");  
+                app.UseExceptionHandler("/Home/Error/500");
+                // Custom exception handler
+                app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
                 app.UseHsts();
             }
 

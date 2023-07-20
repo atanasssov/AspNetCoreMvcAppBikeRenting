@@ -38,7 +38,7 @@ namespace BikeRenting.Web.Controllers
         public async Task<IActionResult> Become(BecomeAgentFormModel model)
         {
             string? userId = this.User.GetId();
-            bool isAgent = await this.agentService.AgentExistsByUserIdAsync(userId);
+            bool isAgent = await this.agentService.AgentExistsByUserIdAsync(userId!);
             if (isAgent)
             {
                 this.TempData[ErrorMessage] = "You are already an agent!";
@@ -59,7 +59,7 @@ namespace BikeRenting.Web.Controllers
             }
 
             bool userHasActiveRents = await this.agentService
-                .HasRentsByUserIdAsync(userId);
+                .HasRentsByUserIdAsync(userId!);
             if (userHasActiveRents)
             {
                 this.TempData[ErrorMessage] = "You must not have any active rents in order to become an agent!";
@@ -69,7 +69,7 @@ namespace BikeRenting.Web.Controllers
 
             try
             {
-                await this.agentService.Create(userId, model);
+                await this.agentService.Create(userId!, model);
             }
             catch (Exception)
             {
