@@ -275,5 +275,27 @@ namespace BikeRenting.Services.Data
 
             await this.dbContext.SaveChangesAsync();
         }
+
+        public async  Task<bool> IsRentedByIdAsync(string bikeId)
+        {
+            Bike bike = await this.dbContext
+                .Bikes
+                .Where(b => b.IsActive)
+                .FirstAsync(b => b.Id.ToString() == bikeId);
+
+            return bike.RenterId.HasValue;
+        }
+
+        public async Task RentBikeAsync(string bikeId, string userId)
+        {
+            Bike bike = await this.dbContext
+               .Bikes
+               .Where(b => b.IsActive)
+               .FirstAsync(b => b.Id.ToString() == bikeId);
+
+            bike.RenterId = Guid.Parse(userId);
+
+            await this.dbContext.SaveChangesAsync();
+        }
     }
 }

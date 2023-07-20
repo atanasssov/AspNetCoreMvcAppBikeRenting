@@ -355,6 +355,46 @@ namespace BikeRenting.Web.Controllers
            
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Rent(string id)
+        {
+            bool bikeExists = await this.bikeService.ExistsByIdAsync(id);
+            if (!bikeExists)
+            {
+                this.TempData[ErrorMessage] = "Bike with provided id does not exist! Please, try again!";
+
+                return this.RedirectToAction("All", "Bike");
+            }
+
+            bool isBikeRented = await this.bikeService.IsRentedByIdAsync(id);
+            if (isBikeRented)
+            {
+                this.TempData[ErrorMessage] = "Selected bike is already rented by another user Please, select another bike!";
+
+                return this.RedirectToAction("All", "Bike");
+            }
+
+            bool isUserAgent = await this.agentService.AgentExistsByUserIdAsync(this.User.GetId()!);
+            if (isUserAgent)
+            {
+                this.TempData[ErrorMessage] = "Agents can not rent bikes! Please, register as a user!";
+
+                return this.RedirectToAction("Index","Home");
+            }
+
+            try
+            {
+                await this.bikeService.RentBikeAsync(id, this.User.GetId()!);
+
+            }
+            catch (Exception)
+            {
+                return this.GeneralError();
+            }
+
+            return this.RedirectToAction("Mine", "Bike");
+        }
+
         private IActionResult GeneralError()
         {
             this.TempData[ErrorMessage] = "Unexpected error occured. Please, try again later or contact an administrator!";
