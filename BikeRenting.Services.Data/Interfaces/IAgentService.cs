@@ -13,5 +13,7 @@ namespace BikeRenting.Services.Data.Interfaces
         Task Create(string userId, BecomeAgentFormModel model);
 
         Task<string?> GetAgentIdByUserIdAsync(string userId);
+
+        Task<bool> HasBikeWithIdAsync(string? userId, string bikeId);
     }
 }

@@ -277,7 +277,7 @@ namespace BikeRenting.Services.Data
             await this.dbContext.SaveChangesAsync();
         }
 
-        public async  Task<bool> IsRentedByIdAsync(string bikeId)
+        public async  Task<bool> IsRentedAsync(string bikeId)
         {
             Bike bike = await this.dbContext
                 .Bikes

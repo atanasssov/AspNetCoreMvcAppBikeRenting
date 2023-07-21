@@ -80,5 +80,21 @@ namespace BikeRenting.Services.Data
 
             return agent.Id.ToString();
         }
+
+        public async Task<bool> HasBikeWithIdAsync(string? userId, string bikeId)
+        {
+            Agent? agent = await this.dbContext
+                .Agents
+                .Include(a => a.OwnedBikes)
+                .FirstOrDefaultAsync(a => a.UserId.ToString() == userId);
+
+            if(agent == null)
+            {
+                return false;
+            }
+
+            bikeId = bikeId.ToLower();
+            return agent.OwnedBikes.Any(b => b.Id.ToString() == bikeId);
+        }
     }
 }

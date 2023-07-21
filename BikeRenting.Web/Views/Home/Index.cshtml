@@ -1,9 +1,14 @@
-﻿@model IEnumerable<IndexViewModel>
+﻿@using BikeRenting.Services.Data.Interfaces;
+@using BikeRenting.Web.Infrastructure.Extensions;
+@model IEnumerable<IndexViewModel>
+
+@inject IAgentService AgentService
 
 @{
     ViewData["Title"] = "Home Page";
 
     var bikes = Model.ToList();
+    bool isUserAgent = await this.AgentService.AgentExistsByUserIdAsync(this.User.GetId()!);
 }
 
 @if (!bikes.Any())
@@ -18,10 +23,12 @@
         <p class="lead">
             @if (User.Identity?.IsAuthenticated ?? false)
             {
-               
-                <a asp-controller="Bike" asp-action="Add" class="btn btn-primary btn-lg"
+                @if (isUserAgent)
+                {
+                    <a asp-controller="Bike" asp-action="Add" class="btn btn-primary btn-lg"
                        role="button">Add Bike</a>
-                
+                }  
+ 
             }
         </p>
     </div>

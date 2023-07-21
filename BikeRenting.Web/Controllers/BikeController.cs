@@ -367,7 +367,7 @@ namespace BikeRenting.Web.Controllers
                 return this.RedirectToAction("All", "Bike");
             }
 
-            bool isBikeRented = await this.bikeService.IsRentedByIdAsync(id);
+            bool isBikeRented = await this.bikeService.IsRentedAsync(id);
             if (isBikeRented)
             {
                 this.TempData[ErrorMessage] = "Selected bike is already rented by another user! Please, select another bike!";
@@ -406,7 +406,7 @@ namespace BikeRenting.Web.Controllers
                 return this.RedirectToAction("All", "Bike");
             }
 
-            bool isBikeRented = await this.bikeService.IsRentedByIdAsync(id);
+            bool isBikeRented = await this.bikeService.IsRentedAsync(id);
             if (!isBikeRented)
             {
                 this.TempData[ErrorMessage] = "Selected bike is not rented! Only rented bikes can be left!";

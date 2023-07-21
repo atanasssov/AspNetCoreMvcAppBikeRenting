@@ -31,7 +31,7 @@ namespace BikeRenting.Services.Data.Interfaces
 
         Task DeleteBikeByIdAsync(string bikeId);
 
-        Task<bool> IsRentedByIdAsync(string bikeId);
+        Task<bool> IsRentedAsync(string bikeId);
 
         Task RentBikeAsync(string bikeId, string userId);
 

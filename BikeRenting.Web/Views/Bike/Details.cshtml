@@ -1,6 +1,17 @@
-﻿@model BikeDetailsViewModel
+﻿@using BikeRenting.Services.Data.Interfaces;
+@using BikeRenting.Web.Infrastructure.Extensions;
+@model BikeDetailsViewModel
 @{
     ViewBag.Title = "Bike Details";
+}
+
+@inject IAgentService AgentService
+@inject IBikeService BikeService
+
+@{
+    bool isUserAgent = await AgentService.AgentExistsByUserIdAsync(this.User.GetId()!);
+    bool isAgentOwnerOfTheBike = await AgentService.HasBikeWithIdAsync(this.User.GetId(), Model.Id);
+    bool isBikeRentedByUser = await BikeService.IsRentedByUserWithIdAsync(Model.Id, this.User.GetId()!);
 }
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
@@ -23,26 +34,34 @@
             <div class="form-inline">
                 @if (this.User.Identity?.IsAuthenticated ?? false)
                 {
-                    <a class="btn btn-warning" asp-controller="Bike" asp-action="Edit"
-                       asp-route-id="@Model.Id">Edit</a>
-                    <a class="ml-2 btn btn-danger" asp-controller="Bike" asp-action="Delete"
-                       asp-route-id="@Model.Id">Delete</a>
+                    @if (isUserAgent && isAgentOwnerOfTheBike)
+                    {
+                        <a class="btn btn-warning" asp-controller="Bike" asp-action="Edit"
+                           asp-route-id="@Model.Id">Edit</a>
+                        <a class="ml-2 btn btn-danger" asp-controller="Bike" asp-action="Delete"
+                           asp-route-id="@Model.Id">Delete</a>
+                    }
+                    
                     @if (!Model.IsRented)
                     {
-                        <form class="ml-2" asp-controller="Bike"
-                              asp-action="Rent" asp-route-id="@Model.Id"
-                              method="post">
-                            <input class="btn btn-primary" type="submit"
-                                   value="Rent" />
-                        </form>
+                        @if (!isUserAgent)
+                        {
+                            <form class="ml-2" asp-controller="Bike"
+                                  asp-action="Rent" asp-route-id="@Model.Id" method="post">
+                                <input class="btn btn-primary" type="submit" value="Rent" />
+                            </form>
+                        }
+                        
                     }
                     else
                     {
-                        <form class="ml-2" asp-controller="Bike" asp-action="Leave"
-                              asp-route-id="@Model.Id" method="post">
-                            <input class="btn btn-primary" type="submit"
-                                   value="Leave" />
-                        </form>
+                        @if(!isUserAgent && isBikeRentedByUser)
+                        {
+                            <form class="ml-2" asp-controller="Bike" asp-action="Leave"
+                                  asp-route-id="@Model.Id" method="post">
+                                <input class="btn btn-primary" type="submit" value="Leave" />
+                            </form>
+                        }
                     }
                 }
             </div>
