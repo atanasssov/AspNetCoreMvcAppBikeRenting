@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 using BikeRenting.Data;
 using BikeRenting.Data.Models;
 using BikeRenting.Web.Infrastructure.Extensions;
 using BikeRenting.Web.Infrastructure.ModelBinders;
-using Microsoft.AspNetCore.Mvc;
 
 namespace BikeRenting.Web
 {

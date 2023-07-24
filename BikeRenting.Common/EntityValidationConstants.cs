@@ -39,6 +39,10 @@
             public const int LastNameMinLength = 2;
             public const int LastNameMaxLength = 40;
 
+            public const int PasswordMinLength = 6;
+            public const int PasswordMaxLength = 100;
+
         }
+
     }
 }
