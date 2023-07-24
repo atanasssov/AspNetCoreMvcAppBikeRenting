@@ -17,11 +17,10 @@ namespace BikeRenting.Services.Data
 
         public async Task<string> GetFullNameByEmailAsync(string email)
         {
-            ApplicationUser? user = await this.dbContext
-                 .Users
-                 .FirstOrDefaultAsync(u => u.Email == email);
-
-            if(user == null)
+            ApplicationUser? user = await dbContext
+                .Users
+                .FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null)
             {
                 return string.Empty;
             }

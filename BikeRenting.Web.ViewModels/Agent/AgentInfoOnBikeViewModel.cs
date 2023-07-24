@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BikeRenting.Web.ViewModels.Agent
 {
     public class AgentInfoOnBikeViewModel
     {
+        public string FullName { get; set; } = null!;
+
         public string Email { get; set; } = null!;
 
         [Display(Name = "Phone")]

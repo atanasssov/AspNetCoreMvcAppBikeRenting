@@ -15,5 +15,8 @@ namespace BikeRenting.Services.Data.Interfaces
         Task<string?> GetAgentIdByUserIdAsync(string userId);
 
         Task<bool> HasBikeWithIdAsync(string? userId, string bikeId);
+
+        // to be changed
+        Task<string> GetAgentEmailByBikeIdAsync(string bikeId);
     }
 }

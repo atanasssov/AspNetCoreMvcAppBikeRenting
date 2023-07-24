@@ -96,5 +96,29 @@ namespace BikeRenting.Services.Data
             bikeId = bikeId.ToLower();
             return agent.OwnedBikes.Any(b => b.Id.ToString() == bikeId);
         }
+
+        // to be changed
+        public async Task<string> GetAgentEmailByBikeIdAsync(string bikeId)
+        {
+            Bike bike = await this.dbContext
+                .Bikes
+                .Include(b => b.Agent)
+                .FirstAsync(b => b.Id.ToString() == bikeId);
+
+            string agentId = bike.AgentId.ToString();
+
+            Agent agent = await this.dbContext
+                .Agents
+                .FirstAsync(a => a.Id.ToString() == agentId);
+
+            string userId = agent.UserId.ToString();
+
+            ApplicationUser user = await this.dbContext
+                .Users
+                .FirstAsync(u => u.Id.ToString() == userId);
+
+            return user.Email;
+                
+        }
     }
 }

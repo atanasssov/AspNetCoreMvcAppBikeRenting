@@ -7,7 +7,6 @@ using BikeRenting.Web.Infrastructure.Extensions;
 using BikeRenting.Services.Data.Models.Bike;
 
 using static BikeRenting.Common.NotificationMessagesConstants;
-using Microsoft.AspNetCore.Server.IIS.Core;
 
 namespace BikeRenting.Web.Controllers
 {
@@ -17,15 +16,18 @@ namespace BikeRenting.Web.Controllers
         private readonly ICategoryService categoryService;
         private readonly IAgentService agentService;
         private readonly IBikeService bikeService;
+        private readonly IUserService userSerive;
 
         public BikeController(ICategoryService categoryService,
                               IAgentService agentService,
-                              IBikeService bikeService)
+                              IBikeService bikeService,
+                              IUserService userSerive)
 
         {
             this.categoryService = categoryService;
             this.agentService = agentService;
             this.bikeService = bikeService;
+            this.userSerive = userSerive;
         }
 
         [HttpGet]
@@ -130,6 +132,13 @@ namespace BikeRenting.Web.Controllers
             try
             {
                 BikeDetailsViewModel viewModel = await this.bikeService.GetDetailsByIdAsync(id);
+
+                
+                string agentEmail = await this.agentService.GetAgentEmailByBikeIdAsync(id);
+
+
+                viewModel.Agent.FullName = await userSerive
+                    .GetFullNameByEmailAsync(agentEmail);
 
                 return View(viewModel);
             }
