@@ -1,10 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 
 using BikeRenting.Data;
 using BikeRenting.Data.Models;
 using BikeRenting.Web.Infrastructure.Extensions;
 using BikeRenting.Web.Infrastructure.ModelBinders;
+
+using static BikeRenting.Common.GeneralApplicationConstants;
 
 namespace BikeRenting.Web
 {
@@ -33,6 +36,7 @@ namespace BikeRenting.Web
                 options.Password.RequiredLength =
                     builder.Configuration.GetValue<int>("Identity:Password:RequiredLength");
             })
+                .AddRoles<IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<BikeRentingDbContext>();
 
             builder.Services.
@@ -73,6 +77,8 @@ namespace BikeRenting.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.SeedAdministrator(DevelopmentAdminEmail);
 
             app.MapControllerRoute(
                 name: "default",

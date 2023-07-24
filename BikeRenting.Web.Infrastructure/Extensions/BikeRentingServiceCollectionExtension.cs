@@ -1,7 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
+using Microsoft.AspNetCore.Builder;
 using BikeRenting.Services.Data;
 using BikeRenting.Services.Data.Interfaces;
+using BikeRenting.Data.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace BikeRenting.Web.Infrastructure.Extensions
 {
@@ -18,3 +21,4 @@ namespace BikeRenting.Web.Infrastructure.Extensions
         }
     }
 }
+
