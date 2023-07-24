@@ -1,14 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication;
 
 using BikeRenting.Data.Models;
 using BikeRenting.Web.ViewModels.User;
+
+using static BikeRenting.Common.NotificationMessagesConstants;
 
 namespace BikeRenting.Web.Controllers
 {
     public class UserController : Controller
     {
-        //private readonly IUserStore<ApplicationUser> userStore;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
 
@@ -59,6 +61,41 @@ namespace BikeRenting.Web.Controllers
 
             return RedirectToAction("Index", "Home");
 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Login(string? returnUrl = null)
+        {
+            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+
+            LoginFormModel model = new LoginFormModel()
+            {
+                ReturnUrl = returnUrl
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginFormModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var result =
+                await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+
+            if (!result.Succeeded)
+            {
+                TempData[ErrorMessage] =
+                    "There was an error while logging you in! Please try again later or contact an administrator.";
+
+                return View(model);
+            }
+
+            return Redirect(model.ReturnUrl ?? "/Home/Index");
         }
     }
 }

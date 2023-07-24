@@ -45,6 +45,11 @@ namespace BikeRenting.Web
 
             builder.Services.AddApplicationServices();
 
+            builder.Services.ConfigureApplicationCookie(cfg =>
+            {
+                cfg.LoginPath = "/User/Login";
+            });
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
