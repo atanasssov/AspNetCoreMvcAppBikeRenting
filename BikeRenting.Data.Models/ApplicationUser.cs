@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.ComponentModel.DataAnnotations;
+
+using Microsoft.AspNetCore.Identity;
+
+using static BikeRenting.Common.EntityValidationConstants.User;
 
 namespace BikeRenting.Data.Models
 {
@@ -11,5 +15,13 @@ namespace BikeRenting.Data.Models
         }
 
         public virtual ICollection<Bike> RentedBikes { get; set; }
+
+        [Required]
+        [MaxLength(FirstNameMaxLength)]
+        public string FirstName { get; set; } = null!;
+
+        [Required]
+        [MaxLength(LastNameMaxLength)]
+        public string LastName { get; set; } = null!;
     }
 }
