@@ -164,7 +164,7 @@ namespace BikeRenting.Web.Controllers
             }
 
             bool isUserAgent = await this.agentService.AgentExistsByUserIdAsync(this.User.GetId()!);
-            if (!isUserAgent)
+            if (!isUserAgent && !this.User.IsAdmin())
             {
                 this.TempData[ErrorMessage] = "You must become agent in order to edit bike information!";
 
@@ -173,7 +173,7 @@ namespace BikeRenting.Web.Controllers
 
             string? agentId = await this.agentService.GetAgentIdByUserIdAsync(this.User.GetId()!);
             bool isAgentOwner = await this.bikeService.IsAgentWithIdOwnerOfBikeWithIdAsync(id, agentId!);
-            if (!isAgentOwner)
+            if (!isAgentOwner && !this.User.IsAdmin())
             {
                 TempData[ErrorMessage] = "You must be the agent owner of the bike which you want to edit!";
 
@@ -215,7 +215,7 @@ namespace BikeRenting.Web.Controllers
             }
 
             bool isUserAgent = await this.agentService.AgentExistsByUserIdAsync(this.User.GetId()!);
-            if (!isUserAgent)
+            if (!isUserAgent && !this.User.IsAdmin())
             {
                 this.TempData[ErrorMessage] = "You must become agent in order to edit bike information!";
 
@@ -224,7 +224,7 @@ namespace BikeRenting.Web.Controllers
 
             string? agentId = await this.agentService.GetAgentIdByUserIdAsync(this.User.GetId()!);
             bool isAgentOwner = await this.bikeService.IsAgentWithIdOwnerOfBikeWithIdAsync(id, agentId!);
-            if (!isAgentOwner)
+            if (!isAgentOwner && !this.User.IsAdmin())
             {
                 TempData[ErrorMessage] = "You must be the agent owner of the bike which you want to edit!";
 
@@ -260,7 +260,7 @@ namespace BikeRenting.Web.Controllers
             }
 
             bool isUserAgent = await this.agentService.AgentExistsByUserIdAsync(this.User.GetId()!);
-            if (!isUserAgent)
+            if (!isUserAgent && !this.User.IsAdmin())
             {
                 this.TempData[ErrorMessage] = "You must become agent in order to edit bike information!";
 
@@ -269,7 +269,7 @@ namespace BikeRenting.Web.Controllers
 
             string? agentId = await this.agentService.GetAgentIdByUserIdAsync(this.User.GetId()!);
             bool isAgentOwner = await this.bikeService.IsAgentWithIdOwnerOfBikeWithIdAsync(id, agentId!);
-            if (!isAgentOwner)
+            if (!isAgentOwner && !this.User.IsAdmin())
             {
                 TempData[ErrorMessage] = "You must be the agent owner of the bike which you want to edit!";
 
@@ -304,7 +304,7 @@ namespace BikeRenting.Web.Controllers
             }
 
             bool isUserAgent = await this.agentService.AgentExistsByUserIdAsync(this.User.GetId()!);
-            if (!isUserAgent)
+            if (!isUserAgent && !this.User.IsAdmin())
             {
                 this.TempData[ErrorMessage] = "You must become agent in order to edit bike information!";
 
@@ -313,7 +313,7 @@ namespace BikeRenting.Web.Controllers
 
             string? agentId = await this.agentService.GetAgentIdByUserIdAsync(this.User.GetId()!);
             bool isAgentOwner = await this.bikeService.IsAgentWithIdOwnerOfBikeWithIdAsync(id, agentId!);
-            if (!isAgentOwner)
+            if (!isAgentOwner && !this.User.IsAdmin())
             {
                 TempData[ErrorMessage] = "You must be the agent owner of the bike which you want to edit!";
 
@@ -344,7 +344,23 @@ namespace BikeRenting.Web.Controllers
 
             try
             {
-                if (isUserAgent)
+                if(User.IsAdmin())
+                {
+                    string? agentId = await this.agentService.GetAgentIdByUserIdAsync(userId);
+
+                    // added bikes as an agent
+                    myBikes.AddRange(await this.bikeService.AllByAgentIdAsync(agentId!));
+                    
+                    //rented bikes as an user
+                    myBikes.AddRange(await this.bikeService.AllByUserIdAsync(userId!));
+
+
+                    myBikes = myBikes
+                        .DistinctBy(b => b.Id)
+                        .ToList();
+                }
+
+                else if(isUserAgent)
                 {
                     string? agentId = await this.agentService.GetAgentIdByUserIdAsync(userId);
 
@@ -361,8 +377,7 @@ namespace BikeRenting.Web.Controllers
             {
 
                 return this.GeneralError();
-            }
-           
+            }          
         }
 
         [HttpPost]
@@ -385,7 +400,7 @@ namespace BikeRenting.Web.Controllers
             }
 
             bool isUserAgent = await this.agentService.AgentExistsByUserIdAsync(this.User.GetId()!);
-            if (isUserAgent)
+            if (isUserAgent && !User.IsAdmin())
             {
                 this.TempData[ErrorMessage] = "Agents can not rent bikes! Please, register as a user!";
 
