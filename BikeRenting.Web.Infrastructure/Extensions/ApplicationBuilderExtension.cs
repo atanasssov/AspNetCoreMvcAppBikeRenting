@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using BikeRenting.Data.Models;
 
 using static BikeRenting.Common.GeneralApplicationConstants;
-
+using BikeRenting.Web.Infrastructure.Middlewares;
 
 namespace BikeRenting.Web.Infrastructure.Extensions
 {
@@ -50,6 +50,11 @@ namespace BikeRenting.Web.Infrastructure.Extensions
             .GetResult();
 
             return app;
+        }
+
+        public static IApplicationBuilder EnableOnlineUsersCheck(this IApplicationBuilder app)
+        {
+            return app.UseMiddleware<OnlineUsersMiddleware>();
         }
     }
 }
