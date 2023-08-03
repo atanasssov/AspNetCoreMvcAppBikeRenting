@@ -1,0 +1,36 @@
+﻿@model MyBikesViewModel;
+
+@{
+    ViewBag.Title = "My Bikes";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<h4>My Added Bikes</h4>
+
+@if (!Model.AddedBikes.Any())
+{
+    <h2 class="text-center">You have no added bikes yet!</h2>
+}
+
+<div class="row">
+    @foreach (var bike in Model.AddedBikes)
+    {
+        @await Html.PartialAsync("~/Views/Shared/_BikePartial.cshtml", bike)
+    }
+</div>
+
+<h4>My Rented Bikes</h4>
+
+@if (!Model.RentedBikes.Any())
+{
+    <h2 class="text-center">You have no rented bikes yet!</h2>
+}
+
+<div class="row">
+    @foreach (var bike in Model.RentedBikes)
+    {
+        @await Html.PartialAsync("~/Views/Shared/_BikePartial.cshtml", bike)
+    }
+</div>

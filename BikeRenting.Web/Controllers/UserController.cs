@@ -39,6 +39,8 @@ namespace BikeRenting.Web.Controllers
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName
+
+                // other properties are set automatically   
             };
 
             await userManager.SetEmailAsync(user, model.Email);

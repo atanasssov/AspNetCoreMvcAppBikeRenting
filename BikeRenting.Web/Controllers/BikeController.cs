@@ -7,6 +7,7 @@ using BikeRenting.Web.Infrastructure.Extensions;
 using BikeRenting.Services.Data.Models.Bike;
 
 using static BikeRenting.Common.NotificationMessagesConstants;
+using static BikeRenting.Common.GeneralApplicationConstants;
 
 namespace BikeRenting.Web.Controllers
 {
@@ -337,6 +338,11 @@ namespace BikeRenting.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Mine()
         {
+            if (this.User.IsInRole(AdminRoleName))
+            {
+                return this.RedirectToAction("Mine", "Bike", new { Area = AdminAreaName });
+            }
+
             List<BikeAllViewModel> myBikes = new List<BikeAllViewModel>();
 
             string userId = this.User.GetId()!;

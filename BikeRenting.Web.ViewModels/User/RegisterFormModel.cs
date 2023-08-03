@@ -27,10 +27,12 @@ namespace BikeRenting.Web.ViewModels.User
 
         [Required]
         [StringLength(FirstNameMaxLength, MinimumLength = FirstNameMinLength)]
+        [Display(Name = "First name")]
         public string FirstName { get; set; } = null!;
 
         [Required]
         [StringLength(LastNameMaxLength, MinimumLength =  LastNameMinLength)]
+        [Display(Name = "Last name")]
         public string LastName { get; set; } = null!;
     }
 }

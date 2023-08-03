@@ -1,9 +1,9 @@
-﻿using System.Diagnostics;
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 using BikeRenting.Web.ViewModels.Home;
 using BikeRenting.Services.Data.Interfaces;
+
+using static BikeRenting.Common.GeneralApplicationConstants;
 
 namespace BikeRenting.Web.Controllers
 {
@@ -18,6 +18,11 @@ namespace BikeRenting.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
+            if (this.User.IsInRole(AdminRoleName))
+            {
+                return this.RedirectToAction("Index", "Home", new { Area = AdminAreaName });
+            }
+
             IEnumerable<IndexViewModel> viewModel =
                 await this.bikeService.LastThreeBikesAsync();
 
