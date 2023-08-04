@@ -16,6 +16,7 @@ namespace BikeRenting.Web.Infrastructure.Extensions
             services.AddScoped<IAgentService, AgentService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRentService, RentService>();
 
             return services;
         }
