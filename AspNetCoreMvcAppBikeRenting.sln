@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BikeRenting.Web.Infrastruct
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BikeRenting.Services.Data.Models", "BikeRenting.Services.Data.Models\BikeRenting.Services.Data.Models.csproj", "{8DEE8E0C-44C2-464D-870F-67E3D4817A1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BikeRenting.WebApi", "BikeRenting.WebApi\BikeRenting.WebApi.csproj", "{FF01165C-9AB4-4253-AA89-53E1FAC78BF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BikeRenting.WebApi", "BikeRenting.WebApi\BikeRenting.WebApi.csproj", "{FF01165C-9AB4-4253-AA89-53E1FAC78BF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

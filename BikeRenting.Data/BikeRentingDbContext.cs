@@ -10,10 +10,11 @@ namespace BikeRenting.Data
 {
     public class BikeRentingDbContext : IdentityDbContext<ApplicationUser,IdentityRole<Guid>, Guid>
     {
+      
         public BikeRentingDbContext(DbContextOptions<BikeRentingDbContext> options)
             : base(options)
         {
-
+         
         }
 
         public DbSet<Category> Categories { get; set; } = null!;

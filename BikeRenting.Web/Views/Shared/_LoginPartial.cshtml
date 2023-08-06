@@ -17,27 +17,27 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello, @userFullName!</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"> <i class="bi bi-person-check-fill"></i> Hello, @userFullName!</a>
         </li>
         @if (!isUserAgent)
         {
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Agent" asp-action="Become">Become Agent</a>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Agent" asp-action="Become"> <i class="bi bi-person-plus-fill"></i> Become Agent</a>
             </li>
         }
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                <button type="submit" class="nav-link btn btn-link text-dark"> <i class="bi bi-box-arrow-left"></i> Logout</button>
             </form>
         </li>
     }
     else
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Register">Register</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Register"> <i class="bi bi-person-plus-fill"></i> Register</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Login</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login"> <i class="bi bi-box-arrow-in-right"></i> Login</a>
         </li>
     }
 </ul>
