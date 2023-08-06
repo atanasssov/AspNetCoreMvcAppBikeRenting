@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Caching.Memory;
 
 using BikeRenting.Data.Models;
 using BikeRenting.Web.ViewModels.User;
 
 using static BikeRenting.Common.NotificationMessagesConstants;
+using static BikeRenting.Common.GeneralApplicationConstants;
 
 namespace BikeRenting.Web.Controllers
 {
@@ -13,12 +15,15 @@ namespace BikeRenting.Web.Controllers
     {
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IMemoryCache memoryCache;
 
         public UserController(SignInManager<ApplicationUser> signInManager,
-                              UserManager<ApplicationUser> userManager)
+                              UserManager<ApplicationUser> userManager,
+                              IMemoryCache memoryCache)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
+            this.memoryCache = memoryCache;
         }
 
         [HttpGet]
@@ -60,6 +65,7 @@ namespace BikeRenting.Web.Controllers
             }
 
             await signInManager.SignInAsync(user, false);
+            this.memoryCache.Remove(UsersCacheKey);
 
             return RedirectToAction("Index", "Home");
 

@@ -49,6 +49,9 @@ namespace BikeRenting.Web
 
             builder.Services.AddApplicationServices();
 
+            builder.Services.AddMemoryCache();
+            builder.Services.AddResponseCaching();
+
             builder.Services.ConfigureApplicationCookie(cfg =>
             {
                 cfg.LoginPath = "/User/Login";
@@ -75,6 +78,8 @@ namespace BikeRenting.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseResponseCaching();
 
             app.UseAuthentication();
             app.UseAuthorization();

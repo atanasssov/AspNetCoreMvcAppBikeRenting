@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
+using Microsoft.Extensions.Caching.Memory;
+
 using BikeRenting.Web.ViewModels.Bike;
 using BikeRenting.Services.Data.Interfaces;
 using BikeRenting.Web.Infrastructure.Extensions;
@@ -18,17 +20,20 @@ namespace BikeRenting.Web.Controllers
         private readonly IAgentService agentService;
         private readonly IBikeService bikeService;
         private readonly IUserService userSerive;
+        private readonly IMemoryCache memoryCache;
 
         public BikeController(ICategoryService categoryService,
                               IAgentService agentService,
                               IBikeService bikeService,
-                              IUserService userSerive)
+                              IUserService userSerive,
+                              IMemoryCache memoryCache)
 
         {
             this.categoryService = categoryService;
             this.agentService = agentService;
             this.bikeService = bikeService;
             this.userSerive = userSerive;
+            this.memoryCache = memoryCache;
         }
 
         [HttpGet]
@@ -423,6 +428,8 @@ namespace BikeRenting.Web.Controllers
                 return this.GeneralError();
             }
 
+            this.memoryCache.Remove(RentsCacheKey);
+
             return this.RedirectToAction("Mine", "Bike");
         }
 
@@ -461,6 +468,8 @@ namespace BikeRenting.Web.Controllers
             {
                 return this.GeneralError();
             }
+
+            this.memoryCache.Remove(RentsCacheKey);
 
             return this.RedirectToAction("Mine", "Bike");
 
