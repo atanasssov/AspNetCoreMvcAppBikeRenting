@@ -1,4 +1,5 @@
 ﻿using BikeRenting.Web.ViewModels.Agent;
+using static BikeRenting.Common.EntityValidationConstants;
 
 namespace BikeRenting.Services.Data.Interfaces
 {
@@ -18,5 +19,7 @@ namespace BikeRenting.Services.Data.Interfaces
 
         // to be changed
         Task<string> GetAgentEmailByBikeIdAsync(string bikeId);
+
+       
     }
 }

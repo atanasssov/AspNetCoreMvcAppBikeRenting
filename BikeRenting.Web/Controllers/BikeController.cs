@@ -10,6 +10,7 @@ using BikeRenting.Services.Data.Models.Bike;
 
 using static BikeRenting.Common.NotificationMessagesConstants;
 using static BikeRenting.Common.GeneralApplicationConstants;
+using BikeRenting.Data.Models;
 
 namespace BikeRenting.Web.Controllers
 {
@@ -38,7 +39,7 @@ namespace BikeRenting.Web.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> All([FromQuery]AllBikesQueryModel queryModel)
+        public async Task<IActionResult> All([FromQuery] AllBikesQueryModel queryModel)
         {
 
             AllBikesFilteredAndPagedServiceModel serviceModel =
@@ -75,7 +76,7 @@ namespace BikeRenting.Web.Controllers
             {
                 return this.GeneralError();
             }
-            
+
 
         }
 
@@ -106,7 +107,7 @@ namespace BikeRenting.Web.Controllers
             try
             {
                 string? agentId = await this.agentService.GetAgentIdByUserIdAsync(this.User.GetId()!);
-               
+
                 string bikeId = await this.bikeService.CreateAndReturnIdAsync(model, agentId!);
 
                 this.TempData[SuccessMessage] = "Bike was added successfully!";
@@ -120,7 +121,7 @@ namespace BikeRenting.Web.Controllers
                 return this.View(model);
 
             }
-            
+
         }
 
         [HttpGet]
@@ -139,7 +140,7 @@ namespace BikeRenting.Web.Controllers
             {
                 BikeDetailsViewModel viewModel = await this.bikeService.GetDetailsByIdAsync(id);
 
-                
+
                 string agentEmail = await this.agentService.GetAgentEmailByBikeIdAsync(id);
 
 
@@ -154,7 +155,7 @@ namespace BikeRenting.Web.Controllers
                 return this.GeneralError();
             }
 
-            
+
         }
 
         [HttpGet]
@@ -199,7 +200,7 @@ namespace BikeRenting.Web.Controllers
                 return this.GeneralError();
             }
 
-            
+
         }
 
         [HttpPost]
@@ -355,13 +356,13 @@ namespace BikeRenting.Web.Controllers
 
             try
             {
-                if(User.IsAdmin())
+                if (User.IsAdmin())
                 {
                     string? agentId = await this.agentService.GetAgentIdByUserIdAsync(userId);
 
                     // added bikes as an agent
                     myBikes.AddRange(await this.bikeService.AllByAgentIdAsync(agentId!));
-                    
+
                     //rented bikes as an user
                     myBikes.AddRange(await this.bikeService.AllByUserIdAsync(userId!));
 
@@ -371,7 +372,7 @@ namespace BikeRenting.Web.Controllers
                         .ToList();
                 }
 
-                else if(isUserAgent)
+                else if (isUserAgent)
                 {
                     string? agentId = await this.agentService.GetAgentIdByUserIdAsync(userId);
 
@@ -388,7 +389,7 @@ namespace BikeRenting.Web.Controllers
             {
 
                 return this.GeneralError();
-            }          
+            }
         }
 
         [HttpPost]
@@ -410,12 +411,29 @@ namespace BikeRenting.Web.Controllers
                 return this.RedirectToAction("All", "Bike");
             }
 
+            // checking if it is agent and it is not admin
+            // enables only users (not agents) and admins to rent bikes
+
             bool isUserAgent = await this.agentService.AgentExistsByUserIdAsync(this.User.GetId()!);
+
             if (isUserAgent && !User.IsAdmin())
             {
                 this.TempData[ErrorMessage] = "Agents can not rent bikes! Please, register as a user!";
 
-                return this.RedirectToAction("Index","Home");
+                return this.RedirectToAction("Index", "Home");
+            }
+
+            // checking if the user is admin
+            // restricts to rent bikes which are added by him
+
+            string? agentId = await this.agentService.GetAgentIdByUserIdAsync(this.User.GetId()!);
+            bool isAgentOwner = await this.bikeService.IsAgentWithIdOwnerOfBikeWithIdAsync(id, agentId!);
+
+            if (isAgentOwner)
+            {
+                this.TempData[ErrorMessage] = "Admin agents can not rent bikes which are added by them!";
+
+                return this.RedirectToAction("Mine", "Bike");
             }
 
             try

@@ -5,6 +5,8 @@ using BikeRenting.Services.Data.Interfaces;
 using BikeRenting.Web.ViewModels.Agent;
 using BikeRenting.Data.Models;
 
+//using static BikeRenting.Common.EntityValidationConstants;
+
 namespace BikeRenting.Services.Data
 {
     public class AgentService : IAgentService
@@ -116,9 +118,9 @@ namespace BikeRenting.Services.Data
             ApplicationUser user = await this.dbContext
                 .Users
                 .FirstAsync(u => u.Id.ToString() == userId);
-
             return user.Email;
-                
         }
+
+     
     }
 }

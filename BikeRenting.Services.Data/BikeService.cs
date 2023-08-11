@@ -310,6 +310,8 @@ namespace BikeRenting.Services.Data
                    bike.RenterId.ToString() == userId;
         }
 
+       
+
         public async Task LeaveBikeAsync(string bikeId)
         {
             Bike bike = await this.dbContext

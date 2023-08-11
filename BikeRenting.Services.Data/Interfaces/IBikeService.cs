@@ -37,6 +37,10 @@ namespace BikeRenting.Services.Data.Interfaces
 
         Task<bool> IsRentedByUserWithIdAsync(string bikeId, string userId);
 
+      
+
+        
+
         Task LeaveBikeAsync(string bikeId);
 
         Task<StatisticsServiceModel> GetStatisticsAsync();

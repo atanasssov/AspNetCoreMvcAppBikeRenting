@@ -9,6 +9,7 @@
     bool isUserAgent = await AgentService.AgentExistsByUserIdAsync(this.User.GetId()!);
     bool isAgentOwnerOfTheBike = await AgentService.HasBikeWithIdAsync(this.User.GetId(), Model.Id);
     bool isBikeRentedByUser = await BikeService.IsRentedByUserWithIdAsync(Model.Id, this.User.GetId()!);
+
 }
 <div class="col-md-4">
     <div class="card mb-3">
@@ -22,16 +23,16 @@
             </h6>
             <h6>(@(Model.IsRented ? "Rented" : "Not Rented"))</h6>
             <br />
-            <a asp-area= "" asp-controller="Bike" asp-action="Details" asp-route-id="@Model.Id"
+            <a asp-area="" asp-controller="Bike" asp-action="Details" asp-route-id="@Model.Id"
                class="btn btn-success">Details</a>
 
             @if (this.User.Identity?.IsAuthenticated ?? false)
             {
                 @if ((isUserAgent && isAgentOwnerOfTheBike) || User.IsAdmin())
                 {
-                    <a asp-area= "" asp-controller="Bike" asp-action="Edit" asp-route-id="@Model.Id"
+                    <a asp-area="" asp-controller="Bike" asp-action="Edit" asp-route-id="@Model.Id"
                        class="btn btn-warning">Edit</a>
-                    <a asp-area= "" asp-controller="Bike" asp-action="Delete" asp-route-id="@Model.Id"
+                    <a asp-area="" asp-controller="Bike" asp-action="Delete" asp-route-id="@Model.Id"
                        class="btn btn-danger">Delete</a>
                 }
 
@@ -39,9 +40,18 @@
 
                 @if (!Model.IsRented)
                 {
-                    @if (!isUserAgent || User.IsAdmin())
+                    @if (!isUserAgent)
                     {
-                        <form class="input-group-sm" asp-area= "" asp-controller="Bike"
+                        <form class="input-group-sm" asp-area="" asp-controller="Bike"
+                              asp-action="Rent" asp-route-id="@Model.Id" method="post">
+                            <input class="btn btn-primary" type="submit" value="Rent" />
+                        </form>
+                    }
+
+                    // this enables admin to see Rent button for bikes which are not added by him
+                    else if (User.IsAdmin() && !isAgentOwnerOfTheBike)
+                    {
+                        <form class="input-group-sm" asp-area="" asp-controller="Bike"
                               asp-action="Rent" asp-route-id="@Model.Id" method="post">
                             <input class="btn btn-primary" type="submit" value="Rent" />
                         </form>
@@ -50,15 +60,25 @@
                 else
                 {
                     @if (!isUserAgent && isBikeRentedByUser)
-                    {   
-                                    <form asp-area= "" asp-controller="Bike" asp-action="Leave"
+                    {
+                        <form asp-area="" asp-controller="Bike" asp-action="Leave"
                               asp-route-id="@Model.Id" method="post">
                             <input class="btn btn-primary" type="submit" value="Leave" />
                         </form>
                     }
-                    
+
+                    // this shows Leave buttom to admin if the bike is rented by him
+                    else if (User.IsAdmin() && isBikeRentedByUser)
+                    {
+                        <form asp-area="" asp-controller="Bike" asp-action="Leave"
+                              asp-route-id="@Model.Id" method="post">
+                            <input class="btn btn-primary" type="submit" value="Leave" />
+                        </form>
+                    }
                 }
+
             }
+
         </div>
     </div>
 </div>
