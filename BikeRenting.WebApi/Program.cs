@@ -1,6 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+
 using BikeRenting.Data;
 using BikeRenting.Web.Infrastructure.Extensions;
-using Microsoft.EntityFrameworkCore;
 
 namespace BikeRenting.WebApi
 {

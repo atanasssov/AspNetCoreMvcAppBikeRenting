@@ -1,16 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-
 using Microsoft.Extensions.Caching.Memory;
 
 using BikeRenting.Web.ViewModels.Bike;
 using BikeRenting.Services.Data.Interfaces;
 using BikeRenting.Web.Infrastructure.Extensions;
 using BikeRenting.Services.Data.Models.Bike;
+using BikeRenting.Data.Models;
 
 using static BikeRenting.Common.NotificationMessagesConstants;
 using static BikeRenting.Common.GeneralApplicationConstants;
-using BikeRenting.Data.Models;
 
 namespace BikeRenting.Web.Controllers
 {
