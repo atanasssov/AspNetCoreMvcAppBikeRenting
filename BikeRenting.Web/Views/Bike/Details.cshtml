@@ -23,14 +23,14 @@
         </div>
         <div class="card col-8 border-0">
             <p style="font-size:25px;"><u>@Model.Title</u></p>
-            <p>Located in: <b>@Model.Address</b></p>
+            <p><b> <i class="bi bi-geo-alt-fill"></i> Located in:</b> @Model.Address</p>
             <p>
-                Price Per Month:
-                <b>@($"{Model.PricePerMonth:f2}") EUR</b>
+                <b>Price Per Month:</b>
+                @($"{Model.PricePerMonth:f2}") EUR
             </p>
-            <p>Description: @Model.Description</p>
-            <p>Category: <b>@Model.Category</b></p>
-            <p><i>(@(Model.IsRented ? "Rented" : "Not Rented"))</i></p>
+            <p><b>Description:</b> @Model.Description</p>
+            <p><b>Category:</b> @Model.Category</p>
+            <p><b>The bike is @(Model.IsRented ? "already rented" : "not rented")!</b></p>
             <div class="form-inline">
                 @if (this.User.Identity?.IsAuthenticated ?? false)
                 {
