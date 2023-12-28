@@ -27,6 +27,7 @@ namespace BikeRenting.Web.ViewModels.Bike
 
         public int CurrentPage { get; set; }
 
+        [Display(Name = "Bikes Per Page")]
         public int BikesPerPage { get; set; }
 
         public int TotalBikes { get; set; }

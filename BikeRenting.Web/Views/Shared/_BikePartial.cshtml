@@ -50,7 +50,10 @@
                     {
                         <form class="input-group-sm" asp-area="" asp-controller="Bike"
                               asp-action="Rent" asp-route-id="@Model.Id" method="post">
-                            <input class="btn btn-primary" type="submit" value="Rent" />
+                            @*<input class="btn btn-primary" type="submit" value="Rent" />*@
+                            <button class="btn btn-primary" type="submit">
+                                <i class="bi bi-cart-plus-fill"></i> Rent
+                            </button>
                         </form>
                     }
 
@@ -59,7 +62,11 @@
                     {
                         <form class="input-group-sm" asp-area="" asp-controller="Bike"
                               asp-action="Rent" asp-route-id="@Model.Id" method="post">
-                            <input class="btn btn-primary" type="submit" value="Rent" />
+                            @*<input class="btn btn-primary" type="submit" value="Rent" />*@
+                            <button class="btn btn-primary" type="submit">
+                                <i class="bi bi-cart-plus-fill"></i> Rent
+                            </button>
+                            
                         </form>
                     }
                 }
@@ -69,7 +76,10 @@
                     {
                         <form asp-area="" asp-controller="Bike" asp-action="Leave"
                               asp-route-id="@Model.Id" method="post">
-                            <input class="btn btn-primary" type="submit" value="Leave" />
+                            @*<input class="btn btn-primary" type="submit" value="Leave" />*@
+                            <button class="btn btn-primary" type="submit">
+                                <i class="bi bi-dash-circle"></i> Leave
+                            </button>
                         </form>
                     }
 
@@ -78,7 +88,10 @@
                     {
                         <form asp-area="" asp-controller="Bike" asp-action="Leave"
                               asp-route-id="@Model.Id" method="post">
-                            <input class="btn btn-primary" type="submit" value="Leave" />
+                           @* <input class="btn btn-primary" type="submit" value="Leave" />*@
+                            <button class="btn btn-primary" type="submit">
+                                <i class="bi bi-dash-circle"></i> Leave
+                            </button>
                         </form>
                     }
                 }
