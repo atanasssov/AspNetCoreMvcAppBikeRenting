@@ -23,15 +23,19 @@ namespace BikeRenting.Web.Areas.Admin.Controllers
         [ResponseCache(Duration = 30, Location = ResponseCacheLocation.Client, NoStore = false)]
         public async Task<IActionResult> All()
         {
-            IEnumerable<UserViewModel> users =
-                this.memoryCache.Get<IEnumerable<UserViewModel>>(UsersCacheKey);
-            if (users == null)
+            object cachedUsers = this.memoryCache.Get(UsersCacheKey);
+            IEnumerable<UserViewModel>? users = null;
+
+            if (cachedUsers is IEnumerable<UserViewModel> cachedUserViewModels)
+            {
+                users = cachedUserViewModels;
+            }
+            else
             {
                 users = await this.userService.AllAsync();
 
                 MemoryCacheEntryOptions cacheOptions = new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan
-                        .FromMinutes(UsersCacheDurationMinutes));
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(UsersCacheDurationMinutes));
 
                 this.memoryCache.Set(UsersCacheKey, users, cacheOptions);
             }
