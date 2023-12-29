@@ -7,7 +7,7 @@
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
-<form method="post" asp-action="Delete">
+<form id="deletingForm" method="post" onsubmit="displayAlert(event)" asp-action="Delete">
     <div class="row">
         <div class="col-md-4">
             <img class="card-img-top" src="@Model.ImageUrl" alt="Bike Image">
@@ -27,3 +27,9 @@
         </div>
     </div>
 </form>
+
+@section Scripts {
+
+    <script src="~/js/deleteBike.js"></script>
+
+}

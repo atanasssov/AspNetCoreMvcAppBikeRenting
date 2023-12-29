@@ -37,7 +37,7 @@
                     @if ((isUserAgent && isAgentOwnerOfTheBike) || User.IsAdmin())
                     {
                         <a class="btn btn-warning" asp-controller="Bike" asp-action="Edit"
-                           asp-route-id="@Model.Id"> <i class="bi bi-pencil-fill"></i> Edit</a>
+                           asp-route-id="@Model.Id" > <i class="bi bi-pencil-fill"></i> Edit</a>
                         <a class="ml-2 btn btn-danger" asp-controller="Bike" asp-action="Delete"
                            asp-route-id="@Model.Id">
                             <i class="bi bi-trash-fill"></i> Delete
@@ -109,3 +109,6 @@
         </div>
     </div>
 </div>
+
+
+
