@@ -34,3 +34,35 @@
 :arrow_right: Jquery  
 :arrow_right: HTML  
 :arrow_right: CSS  
+
+## Screenshots :framed_picture:  
+
+
+**Displaying all bikes for unregistered users :point_down:**`  
+  
+![](https://i.ibb.co/w726dfW/view-Unregistered.jpg)  
+  
+**Displaying all bikes for registered users :point_down:**`
+  
+![](https://i.ibb.co/X8qVxcd/view-Registered.jpg)  
+  
+
+**Displaying all bikes for agent :point_down:**`  
+
+  ![](https://i.ibb.co/pP0JdTT/view-Agent.jpg)  
+  
+**Displaying admin's page :point_down:**`  
+  
+![](https://i.ibb.co/4ZRh8VY/Admin-View.jpg)  
+
+**Displaying adding a bike :point_down:**`  
+
+  ![](https://i.ibb.co/KGcwv4V/add-bike.jpg)  
+    
+**Displaying toastr notifications :point_down:**`  
+  
+![](https://i.ibb.co/2gm5Wh8/toastr1.jpg)  
+
+
+
+
