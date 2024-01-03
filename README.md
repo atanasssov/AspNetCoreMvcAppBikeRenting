@@ -58,11 +58,12 @@
 **Displaying adding a bike :point_down:**`  
 
   ![](https://i.ibb.co/KGcwv4V/add-bike.jpg)  
-    
+
+**Displaying bike details :point_down:**` 
+
+  ![](https://i.ibb.co/8gBWVrV/bike-details-page.jpg)  
 **Displaying toastr notifications :point_down:**`  
   
-![](https://i.ibb.co/2gm5Wh8/toastr1.jpg)  
-
-
+![](https://i.ibb.co/48284PD/toastr1.jpg)  
 
 
