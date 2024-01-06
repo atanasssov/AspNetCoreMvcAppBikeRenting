@@ -32,8 +32,10 @@
             <p><b>Category:</b> @Model.Category</p>
             <p><b>The bike is @(Model.IsRented ? "already rented" : "not rented")!</b></p>
             <div class="form-inline">
+                @* if uthe ser is logged in*@
                 @if (this.User.Identity?.IsAuthenticated ?? false)
                 {
+                    @*Delete and Edit buttons available only if user is an agent, an owner of the bike or he is an admin *@
                     @if ((isUserAgent && isAgentOwnerOfTheBike) || User.IsAdmin())
                     {
                         <a class="btn btn-warning" asp-controller="Bike" asp-action="Edit"
@@ -43,9 +45,10 @@
                             <i class="bi bi-trash-fill"></i> Delete
                         </a>
                     }
-                    
+                    @* if bike is not rented*@
                     @if (!Model.IsRented)
                     {
+                        @*if user is not an agent but a regular user*@
                         @if (!isUserAgent)
                         {
                             <form class="input-group-sm" asp-area="" asp-controller="Bike"
@@ -57,7 +60,7 @@
                             </form>
                         }
 
-                        // this enables admin to see Rent button for bikes which are not added by him
+                        //enables admin to see Rent button for bikes which are not added by him
                         else if (User.IsAdmin() && !isAgentOwnerOfTheBike)
                         {
                             <form class="input-group-sm" asp-area="" asp-controller="Bike"
@@ -70,8 +73,10 @@
                         }
                         
                     }
+                    @* if the bikes is already rented*@
                     else
                     {
+                        @* allowing user to leave the bike if he is not an agent and the bike is rented by him*@
                         @if (!isUserAgent && isBikeRentedByUser)
                         {
                             <form asp-area="" asp-controller="Bike" asp-action="Leave"
@@ -83,7 +88,7 @@
                             </form>
                         }
 
-                        // this shows Leave buttom to admin if the bike is rented by him
+                        @* showing Leave buttom to admin if the bike is rented by him*@
                         else if (User.IsAdmin() && isBikeRentedByUser)
                         {
                             <form asp-area="" asp-controller="Bike" asp-action="Leave"

@@ -37,11 +37,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Bike" asp-action="All"> <i class="bi bi-list-check"></i> All Bikes</a>
                         </li>
+                       @* Adding My bikes only if the user is logged in*@
                         @if(this.User.Identity?.IsAuthenticated ?? false)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Bike" asp-action="Mine"> <i class="bi bi-person-lines-fill"></i> My Bikes</a>
                             </li>
+
+                           @* Adding an add bike button availble only if the user is an agent*@
                             @if(isUserAgent)
                             {
                                 <li class="nav-item">

@@ -22,6 +22,7 @@ namespace BikeRenting.WebApi.Controllers
         [ProducesResponseType(400)]
 
         public async Task<IActionResult> GetStatistics()
+
         {
             try
             {
