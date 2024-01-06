@@ -20,11 +20,10 @@ namespace BikeRenting.Web.Areas.Admin.Controllers
         }
 
         [Route("User/All")]
-        [ResponseCache(Duration = 30, Location = ResponseCacheLocation.Client, NoStore = false)]
         public async Task<IActionResult> All()
         {
             object cachedUsers = this.memoryCache.Get(UsersCacheKey);
-            IEnumerable<UserViewModel>? users = null;
+            IEnumerable<UserViewModel> users;
 
             if (cachedUsers is IEnumerable<UserViewModel> cachedUserViewModels)
             {

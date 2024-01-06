@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 
 using BikeRenting.Data.Models;
+using BikeRenting.Web.Infrastructure.Middlewares;
 
 using static BikeRenting.Common.GeneralApplicationConstants;
-using BikeRenting.Web.Infrastructure.Middlewares;
 
 namespace BikeRenting.Web.Infrastructure.Extensions
 {

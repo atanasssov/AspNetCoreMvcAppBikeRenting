@@ -45,6 +45,7 @@
                             <i class="bi bi-trash-fill"></i> Delete
                         </a>
                     }
+                    <p></p>
                     @* if bike is not rented*@
                     @if (!Model.IsRented)
                     {
@@ -79,7 +80,7 @@
                         @* allowing user to leave the bike if he is not an agent and the bike is rented by him*@
                         @if (!isUserAgent && isBikeRentedByUser)
                         {
-                            <form asp-area="" asp-controller="Bike" asp-action="Leave"
+                            <form class="input-group-sm"  asp-area="" asp-controller="Bike" asp-action="Leave"
                                   asp-route-id="@Model.Id" method="post">
                                 @*<input class="btn btn-primary" type="submit" value="Leave" />*@
                                 <button class="btn btn-primary" type="submit">
@@ -91,7 +92,7 @@
                         @* showing Leave buttom to admin if the bike is rented by him*@
                         else if (User.IsAdmin() && isBikeRentedByUser)
                         {
-                            <form asp-area="" asp-controller="Bike" asp-action="Leave"
+                            <form class="input-group-sm" asp-area="" asp-controller="Bike" asp-action="Leave"
                                   asp-route-id="@Model.Id" method="post">
                                 @*<input class="btn btn-primary" type="submit" value="Leave" />*@
                                 <button class="btn btn-primary" type="submit">
