@@ -59,6 +59,7 @@ Different appsettings are set for production and development environment.
 :arrow_right: Bootstrap Icons  
 :arrow_right: JavaScript  
 :arrow_right: Jquery  
+:arrow_right: AJAX  
 :arrow_right: HTML  
 :arrow_right: CSS  
 
