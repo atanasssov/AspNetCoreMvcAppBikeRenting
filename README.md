@@ -7,7 +7,7 @@ The platform allows to sort bikes by newest, oldest, price (ascending), price (d
 All filters can be combined.
 
 :green_circle: After a successfully register, users have access to a list showing bike details. They can rent unrented bikes and manage their rentals. 
-Additionally, users could become agents, authorizing them to add, view, edit, and delete bikes they have added.
+Additionally, users could become agents.
 In order to become an agent, user must not have any active rents. 
 When registering as an agent you must provide a valid phone number. If an agent with the same number exists, a validation error will appear. Agents hold specific privileges - they can add bikes to the system, manage bike details, and edit or remove only the bikes they have added. 
 
@@ -17,7 +17,7 @@ Cumstom middleware keeps track of online users using a concurrent dictionary, up
 
 :scroll: Categories and initial bikes are seeded.
 First agent is seeded through database in order to seed initial bikes with the required agentId.
-First admini is seed with an extension method.
+First admin is seed with an extension method.
 
 :slightly_smiling_face: Custom error pages for status codes  400, 401 and 404 for production mode are set.
 
